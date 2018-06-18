@@ -1,0 +1,3 @@
+describe( 'Operation Component', function() {
+  
+});
