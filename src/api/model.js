@@ -20,8 +20,35 @@ let model = function( options = {}){
   'patch',
   'delete'
 ].forEach( method => {
-  model.prototype[method] = function( data, options = {}){
+  model.prototype[method] = function( id, data, options = {}){
     let query = '';
+    if ( method === 'post' ){
+      options = data;
+      data = id;
+      if ( !data ){
+        throw new Error( 'Should include data for the POST operation' );
+      }
+    }
+    else if ( method === 'get' || method === 'delete' ){
+      if ( method === 'delete' && !id ){
+        throw new Error( 'Should specify an id for deleting a record' );
+      }
+      if ( typeof id === 'object' ) {
+        query = `?${ stringify( id )}`;
+      } else {
+        if ( typeof id === 'string' ){
+          id = ( id ).replace( /^\?/mig, '' );
+          id = `?${ id}`;
+        }
+        query = id || '';
+      }
+      options = data;
+    } else {
+      if ( !id && !data ){
+        throw new Error( 'You have to privide an ID and some data to update a document.' );
+      }
+      query = id;
+    }
     options = Object.assign({
       method: method.toUpperCase(),
       body: JSON.stringify( data ),
@@ -29,21 +56,9 @@ let model = function( options = {}){
       credentials: this.credentials
     }, options );
     if ( method === 'get' || method === 'delete' ){
-      if ( typeof data === 'object' ) {
-        // let isObjectParam = Object.keys(data).some((key) => {
-        //   return typeof data[key] === 'object'
-        // })
-        // query = isObjectParam ? stringify(data)+JSON.stringify(data) : stringify(data)
-        query = `?${ stringify( data )}`;
-      } else {
-        if ( typeof data === 'string' ){
-          data = ( data ).replace( /^\?/mig, '' );
-          data = `?${ data}`;
-        }
-        query = data || '';
-      }
       delete options.body;
     }
+
     return fetch( this.baseUrl + this.url + query, options )
       .then( onSuccess, onError );
   };

@@ -4,6 +4,20 @@ import fetchMock from 'fetch-mock';
 import { createNew } from 'trutils';
 
 let model;
+let params = {
+  get:[],
+  post:[{ name: 'some name' }],
+  put:[ 12, { name: 'some name' }],
+  patch:[ 12,{ name: 'some name' }],
+  delete: [12]
+};
+let routeCalled = {
+  get: '/resources/',
+  post:'/resources/',
+  put:`/resources/${ params.put[0]}`,
+  patch:`/resources/${ params.patch[0]}`,
+  delete: `/resources/${ params.delete[0]}`
+};
 describe( 'model of some resource', function() {
   before(() => {
     fetchMock.mock( '*', {});
@@ -41,7 +55,6 @@ describe( 'model of some resource', function() {
         assert.equal( e.message, 'There was a problem' );
       }
     });
-
   });
   describe( 'onError', function() {
     it( 'should throw the error of the response', function() {
@@ -53,7 +66,6 @@ describe( 'model of some resource', function() {
         assert.equal( e.message, 'the error' );
       }
     });
-
   });
   describe( 'methods', function() {
     before(() => {
@@ -62,6 +74,7 @@ describe( 'model of some resource', function() {
       model.url = 'resources/';
     });
     after( fetchMock.restore );
+
     [
       'get',
       'post',
@@ -70,9 +83,10 @@ describe( 'model of some resource', function() {
       'delete'
     ].forEach( method => {
       it( `call the method ${method} for the model`, function( done ) {
-        model[method]().then(() => {
-          let call = fetchMock.lastCall( '/resources/', method.toUpperCase());
-          assert.equal( call[0], '/resources/' );
+        model[method]( ...params[method]).then(() => {
+          let call = fetchMock.lastCall( routeCalled[method], method.toUpperCase());
+          assert( call, 'no call done for the method' );
+          assert.equal( call[0], routeCalled[method]);
           assert.equal( call[1].method, method.toUpperCase());
           done();
         })
@@ -81,15 +95,17 @@ describe( 'model of some resource', function() {
           });
       });
     });
-    describe( 'get and delete', function() {
+
+    describe( 'Not contains body', () => {
       [
         'get',
         'delete'
       ].forEach( method => {
-        it( 'does not contain body', function( done ) {
-          model[method]().then(() => {
-            let call = fetchMock.lastCall( '/resources/', method.toUpperCase());
-            assert.equal( call[0], '/resources/' );
+        it( method, function( done ) {
+          model[method]( ...params[method]).then(() => {
+            let call = fetchMock.lastCall( routeCalled[method], method.toUpperCase());
+            assert( call, 'no call done for the method' );
+            assert.equal( call[0], routeCalled[method]);
             assert.notExists( call[1].body );
             done();
           }).catch(( err ) => {
@@ -97,8 +113,8 @@ describe( 'model of some resource', function() {
           });
         });
       });
-
     });
+
     describe( 'post, put, patch', function() {
       [
         'post',
@@ -106,9 +122,10 @@ describe( 'model of some resource', function() {
         'patch',
       ].forEach( method => {
         it( `${method } contains body`, function ( done ) {
-          model[method]({ name: 'some name' }).then(() => {
-            let call = fetchMock.lastCall( '/resources/', method.toUpperCase());
-            assert.equal( call[0], '/resources/' );
+          model[method]( ...params[method]).then(() => {
+            let call = fetchMock.lastCall( routeCalled[method], method.toUpperCase());
+            assert( call, 'no call done for the method' );
+            assert.equal( call[0], routeCalled[method]);
             assert.exists( call[1].body );
             assert.equal( call[1].body, JSON.stringify({ name: 'some name' }));
             done();
@@ -118,7 +135,6 @@ describe( 'model of some resource', function() {
         });
       });
     });
-
   });
   describe( 'delete and get with query', function() {
     before(() => {
@@ -136,6 +152,7 @@ describe( 'model of some resource', function() {
       it( `call the ${method} api with query params`, function( done ) {
         model[method]( '?name=tomas' ).then(() => {
           let call = fetchMock.lastCall( '/resources/', method.toUpperCase());
+          assert( call, 'no call done for the method' );
           assert.equal( call[0], '/resources/?name=tomas' );
           assert.notExists( call[1].body );
           done();
@@ -144,7 +161,6 @@ describe( 'model of some resource', function() {
         });
       });
     });
-
   });
   describe( 'delete and get with an object as query', function() {
     before(() => {
@@ -165,6 +181,7 @@ describe( 'model of some resource', function() {
           where: '{"name":{"contains":"theodore"}}'
         }).then(() => {
           let call = fetchMock.lastCall( '/resources/', method.toUpperCase());
+          assert( call, 'no call done for the method' );
           assert.equal( call[0], '/resources/?where=%7B%22name%22%3A%7B%22contains%22%3A%22theodore%22%7D%7D' );
           assert.notExists( call[1].body );
           done();
@@ -173,7 +190,6 @@ describe( 'model of some resource', function() {
         });
       });
     });
-
   });
   describe( 'delete and get with id', function() {
     before(() => {
@@ -187,6 +203,7 @@ describe( 'model of some resource', function() {
       it( `call the ${method} api with id`, function( done ) {
         model[method]( 12 ).then(() => {
           let call = fetchMock.lastCall( '/resources/12', method.toUpperCase());
+          assert( call, 'no call done for the method' );
           assert.equal( call[0], '/resources/12' );
           assert.notExists( call[1].body );
           done();
@@ -196,6 +213,4 @@ describe( 'model of some resource', function() {
       });
     });
   });
-
-
 });

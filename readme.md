@@ -1,6 +1,10 @@
-# Front End Javascript development Environment
+# **VUE** Front End Javascript development Environment
 
 ## Dependencies
+
+### Vue
+* Vuelidate ('vuelidate/lib/validators')
+
 
 ### Http library
 
@@ -41,7 +45,7 @@
 
 ## Testing
 
-###Framework
+### Framework
 
 * Mocha
 
