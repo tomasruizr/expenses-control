@@ -10,42 +10,18 @@
 </div>
 </template>
 <script>
-import user from './userModel';
-import Form from '../BaseComponents/Form';
 export default {
-  mixins:[Form],
-  data(){
-    return {
-      model: user
-    };
-  },
   props:{
-    user: { 
-      type:[ String, Object ],
-      default: '' 
-    }
-  },
-  mounted(){
-    this.init();
-    if ( this.user ){
-      if( typeof this.user === 'object' ){
-        this.data = this.user;
-      } else {
-        user.get( this.user ).then(( data ) => {
-          this.data = data;
-        });
-      }
+    data: Object,
+    btnCaption: {
+      type: String,
+      default: 'Save'
     }
   },
   methods:{
-    submit: function( event ){
+    submit( event ){
       event.preventDefault();
-      this.save().then(( response ) => {
-        this.$emit( 'saved', response );
-        this.reset();
-      }).catch(( error ) => {
-        this.$emit( 'error', error );
-      });
+      this.$emit( 'saved', this.data );
     }
   }
 };

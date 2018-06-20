@@ -15,16 +15,23 @@ export default {
     init(){
       this.btnCaption = this.isNew ? this.btnAddCaption : this.btnEditCaption;
     },
+    onCreated( response ){
+      this.$emit( 'created', response );
+    },
+    onEdited( response ){
+      this.$emit( 'edited', response );
+    },
+    onError( response ){
+      this.$emit( 'error', response );
+    },
     delete(){},
     save(){
-      let promise;
       if ( this.isNew ){
-        promise = this.model.post( this.data );
+        this.model.post( this.data ).then( this.onCreated ).catch( this.onError );
       }
       else{
-        promise = this.model.put( this.userData );
+        this.model.put( this.data ).then( this.onEdited ).catch( this.onError );
       }
-      return promise;
     },
     reset(){
       this.data = {};

@@ -4,22 +4,21 @@ import fetchMock from 'fetch-mock';
 let params = {
   get:[],
   post:[{ name: 'some name' }],
-  put:[ 12, { name: 'some name' }],
-  patch:[ 12,{ name: 'some name' }],
+  put:[{ id:12, name: 'some name' }],
+  patch:[{ id:12, name: 'some name' }],
   delete: [12]
 };
 let routeCalled = {
   get: '/user/',
   post:'/user/',
-  put:`/user/${ params.put[0]}`,
-  patch:`/user/${ params.patch[0]}`,
+  put:`/user/${ params.put[0].id}`,
+  patch:`/user/${ params.patch[0].id}`,
   delete: `/user/${ params.delete[0]}`
 };
 describe( 'user model', function() {
   before(() => {
     fetchMock.mock( '*', {});
-    // fetchMock.catch({});
-    user.baseUrl = '/';
+    user.options.baseUrl = '/';
   });
   after( fetchMock.restore );
   it( 'contains the http methods as functions in the model', function() {

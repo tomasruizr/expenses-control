@@ -86,7 +86,7 @@
     "include": [
       "src/**/*.(js|vue)"
     ],
-    "instrument": false,
+    "instrument": true,
     "sourceMap": false,
     "all": true
   }

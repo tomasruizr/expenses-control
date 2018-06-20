@@ -4,6 +4,7 @@
     <table>
       <thead>
         <th>&nbsp;</th>
+        <th>&nbsp;</th>
         <th>Id</th>
         <th>First Name</th>
         <th>Last Name</th>
@@ -11,7 +12,8 @@
       </thead>
       <tbody id="users">
         <tr v-for="(user, index) in data" :key= "user.id">
-          <td><a href="#" @click="remove(user.id, index)" class="deleteUser">Delete</a></td>
+          <td><a href="#" @click="$emit('edit', user, index)" class="editUser">Edit</a></td>
+          <td><a href="#" @click="remove(user, index)" class="deleteUser">Delete</a></td>
           <td>{{user.id}}</td>
           <td>{{user.firstName}}</td>
           <td>{{user.lastName}}</td>
@@ -24,18 +26,25 @@
 
 <script>
 import user from './userModel';
-import List from '../BaseComponents/List';
 export default {
-  mixins: [List],
   name: 'user-list',
   data: function() {
     return {
       model: user
     };
   },
-  mounted: function() {
-    this.load();  
+  props:{
+    data: Array
   },
+  methods:{
+    edit( user, index ){
+      this.$emit( 'edit', user, index );
+    },
+    remove( user, index ){
+      this.$emit( 'delete', user, index );
+      this.data.splice( index, 1 );
+    }
+  }
 };
 </script>
 
@@ -43,8 +52,11 @@ export default {
 table th {
   padding: 5px
 }
-.deleteUser {
+.editUser {
   color: green;
+}
+.deleteUser {
+  color:lightsalmon;
 }
 </style>
 

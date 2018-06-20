@@ -1,0 +1,47 @@
+<template>
+  <div id="user-main">
+    <user-edit :data="editUser" @saved="editSaved"/>
+    <user-list :data="users" @edit="listEdit" @delete="listDelete"/>
+  </div>
+</template>
+
+<script>
+import UserList from './UserList.vue';
+import UserEdit from './UserEdit.vue';
+import user from './userModel';
+export default {
+  name:'user-main',
+  components: { UserList, UserEdit },
+  data(){
+    return {
+      isNew:true,
+      users:[],
+      editUser:{}
+    };
+  },
+  mounted(){
+    user.get().then(( data ) => {
+      this.users = data;
+    });
+  },
+  methods: {
+    editSaved( data ){
+      this.editUser = {};
+      let method = this.isNew ? 'post' : 'put';
+      user[method]( data ).then(( response ) => {
+        if ( method === 'post' )
+          this.users.push( response );
+      });
+      this.isNew = true;
+    },
+    listEdit( user ){
+      this.isNew = false;
+      this.editUser = user;
+    },
+    listDelete( data, index ){
+      user.delete( data.id ).then(( response ) => {
+      });
+    },
+  }
+};
+</script>

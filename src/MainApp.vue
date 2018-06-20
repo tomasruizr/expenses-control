@@ -1,17 +1,15 @@
 <template>
-  <div id="mainApp">
-    <user-add/>
-    <user-list/>
+  <div id="main-app">
+    <user-main/>
   </div>
 </template>
 
 <script>
-import UserList from './Users/UserList.vue'
-import UserAdd from './Users/UserEdit.vue'
+import UserMain from './Users/UserMain.vue';
 export default {
-  name:'mainApp',
-  components: { UserList, UserAdd }
-}
+  name:'main-app',
+  components: { UserMain },
+};
 </script>
 <style lang="scss">
 #mainApp {
