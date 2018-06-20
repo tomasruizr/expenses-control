@@ -34,11 +34,11 @@ describe( 'UserList.vue', function() {
   
   describe( 'getUsers', function() {
     it( 'should call user.get', function () {
-      wrapper.vm.getUsers();
+      wrapper.vm.load();
       assert.equal( get.callCount, 1 );
     });
     it( 'has a td with the details of the user', function(){
-      wrapper.vm.getUsers();
+      wrapper.vm.load();
       const index = wrapper.html();
       let $ = cheerio.load( index );
       let tr = $( '#users' )[0].childNodes[0].childNodes;
@@ -51,11 +51,11 @@ describe( 'UserList.vue', function() {
   });
   describe( 'delete users', function() {
     it( 'should call user.get', function () {
-      wrapper.vm.deleteUser( 1, 0 );
+      wrapper.vm.remove( 1, 0 );
       assert.equal( del.callCount, 1 );
     });
     it( 'empties the user list after deletion', function(){
-      wrapper.vm.getUsers();
+      wrapper.vm.load();
       const index = wrapper.html();
       let $ = cheerio.load( index );
       let tr = $( '#users' )[0].childNodes;

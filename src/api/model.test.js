@@ -7,21 +7,21 @@ let model;
 let params = {
   get:[],
   post:[{ name: 'some name' }],
-  put:[ 12, { name: 'some name' }],
-  patch:[ 12,{ name: 'some name' }],
+  put:[{ id:12, name: 'some name' }],
+  patch:[{ id:12, name: 'some name' }],
   delete: [12]
 };
 let routeCalled = {
   get: '/resources/',
   post:'/resources/',
-  put:`/resources/${ params.put[0]}`,
-  patch:`/resources/${ params.patch[0]}`,
+  put:'/resources/12',
+  patch:'/resources/12',
   delete: `/resources/${ params.delete[0]}`
 };
 describe( 'model of some resource', function() {
   before(() => {
     fetchMock.mock( '*', {});
-    model = createNew( Model );
+    model = createNew( Model, { url:'resources/' });
   });
   after( fetchMock.restore );
   it( 'contains the http methods as functions', function() {
@@ -32,14 +32,14 @@ describe( 'model of some resource', function() {
     assert.exists( model.delete );
   });
   it( 'contains headers, credentials, baseUrl, and url properties to exist', function() {
-    assert.exists( model.headers );
-    assert.exists( model.credentials );
-    assert.exists( model.baseUrl );
-    assert.exists( model.url );
+    assert.exists( model.options.headers );
+    assert.exists( model.options.credentials );
+    assert.exists( model.options.baseUrl );
+    assert.exists( model.options.url );
   });
   it( 'contains default values for headers and credentials', function() {
-    assert.deepEqual( model.headers, { 'Content-Type': 'application/json' });
-    assert.equal( model.credentials, 'same-origin' );
+    assert.deepEqual( model.options.headers, { 'Content-Type': 'application/json' });
+    assert.equal( model.options.credentials, 'same-origin' );
   });
   describe( 'onSuccess', function() {
     it( 'should throw the error of the response if it reaches success function', function() {
@@ -70,8 +70,8 @@ describe( 'model of some resource', function() {
   describe( 'methods', function() {
     before(() => {
       fetchMock.catch({});
-      model.baseUrl = '/';
-      model.url = 'resources/';
+      model.options.baseUrl = '/';
+      model.options.url = 'resources/';
     });
     after( fetchMock.restore );
 
@@ -127,7 +127,10 @@ describe( 'model of some resource', function() {
             assert( call, 'no call done for the method' );
             assert.equal( call[0], routeCalled[method]);
             assert.exists( call[1].body );
-            assert.equal( call[1].body, JSON.stringify({ name: 'some name' }));
+            if ( method === 'post' )
+              assert.equal( call[1].body, JSON.stringify({ name: 'some name' }));
+            else
+              assert.equal( call[1].body, JSON.stringify({ id:12, name: 'some name' }));
             done();
           }).catch(( err ) => {
             done( err );

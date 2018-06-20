@@ -22,6 +22,4 @@ describe( 'baseUrl', function() {
     let base = getBaseUrl( 'https://example.org/?useStaticData' );
     assert.equal( env.api, base );
   });
-  
-  
 });

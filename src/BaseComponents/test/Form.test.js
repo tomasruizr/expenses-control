@@ -27,6 +27,4 @@ describe( 'Form Prototype', function() {
   describe( 'onError', function() {
     it( 'Adds the error to the errors array in data' );
   });
-  
-  
 });

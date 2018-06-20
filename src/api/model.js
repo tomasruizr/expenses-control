@@ -8,61 +8,57 @@ import getBaseUrl from './baseUrl';
 import { stringify } from 'querystring';
 
 let model = function( options = {}){
-  this.headers = options.headers || { 'Content-Type': 'application/json' };
-  this.credentials = options.credentials || 'same-origin';
-  this.baseUrl = options.baseUrl || getBaseUrl();
-  this.url = options.url || '';
+  this.options = Object.assign({},{
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    baseUrl: getBaseUrl(),
+    url: ''
+  }, options );
 };
+
 [
   'get',
-  'post',
-  'put',
-  'patch',
   'delete'
 ].forEach( method => {
-  model.prototype[method] = function( id, data, options = {}){
-    let query = '';
-    if ( method === 'post' ){
-      options = data;
-      data = id;
-      if ( !data ){
-        throw new Error( 'Should include data for the POST operation' );
-      }
+  model.prototype[method] = function( query, options = {}){
+    if ( method === 'delete' && !query ){
+      throw new Error( 'Should specify an id for deleting a record' );
     }
-    else if ( method === 'get' || method === 'delete' ){
-      if ( method === 'delete' && !id ){
-        throw new Error( 'Should specify an id for deleting a record' );
-      }
-      if ( typeof id === 'object' ) {
-        query = `?${ stringify( id )}`;
-      } else {
-        if ( typeof id === 'string' ){
-          id = ( id ).replace( /^\?/mig, '' );
-          id = `?${ id}`;
-        }
-        query = id || '';
-      }
-      options = data;
+    if ( typeof query === 'object' ) {
+      query = `?${ stringify( query )}`;
     } else {
-      if ( !id && !data ){
-        throw new Error( 'You have to privide an ID and some data to update a document.' );
+      if ( typeof query === 'string' && /\?/mig.test( query )){
+        query = ( query ).replace( /^\?/mig, '' );
+        query = `?${ query}`;
       }
-      query = id;
     }
-    options = Object.assign({
-      method: method.toUpperCase(),
-      body: JSON.stringify( data ),
-      headers: this.headers,
-      credentials: this.credentials
-    }, options );
-    if ( method === 'get' || method === 'delete' ){
-      delete options.body;
-    }
-
-    return fetch( this.baseUrl + this.url + query, options )
+    query = query || '';
+    options.method = method.toUpperCase();
+    return fetch( this.options.baseUrl + this.options.url + query, Object.assign({}, this.options, options ))
       .then( onSuccess, onError );
   };
 });
+
+[
+  'post',
+  'put',
+  'patch',
+].forEach( method => {
+  model.prototype[method] = function( data, options = {}){
+    if ( !data ){
+      throw new Error( 'Should include data for the POST operation' );
+    }
+    if ([ 'put', 'patch' ].includes( method ) && !data.id ){
+      throw new Error( 'You have to privide an ID and some data to update a document.' );
+    }
+    let id = data.id || '';
+    options.method = method.toUpperCase();
+    options.body = JSON.stringify( data );
+    return fetch( this.options.baseUrl + this.options.url + id, Object.assign({}, this.options, options ))
+      .then( onSuccess, onError );
+  };
+});
+
 
 function onSuccess( response ) {
   if ( response.status >= 200 && response.status < 300 ) {

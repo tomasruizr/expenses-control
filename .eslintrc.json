@@ -1,7 +1,11 @@
 {
   "root": true,
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:vue/essential"
+  ],
+  "plugins": [
+    "vue"
   ],
   "parserOptions": {
     "ecmaVersion": 8,
@@ -15,6 +19,7 @@
   },
   "rules": {
     "no-console": 1,
+    "no-debugger":"off",
     "semi": ["error", "always"],
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
     "quote-props": ["error", "consistent-as-needed"],

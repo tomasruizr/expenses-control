@@ -10,8 +10,8 @@
         <th>Email</th>
       </thead>
       <tbody id="users">
-        <tr v-for="(user, index) in users" :key= "user.id">
-          <td><a href="#" @click="deleteUser(user.id, index)" class="deleteUser">Delete</a></td>
+        <tr v-for="(user, index) in data" :key= "user.id">
+          <td><a href="#" @click="remove(user.id, index)" class="deleteUser">Delete</a></td>
           <td>{{user.id}}</td>
           <td>{{user.firstName}}</td>
           <td>{{user.lastName}}</td>
@@ -24,30 +24,19 @@
 
 <script>
 import user from './userModel';
+import List from '../BaseComponents/List';
 export default {
+  mixins: [List],
   name: 'user-list',
   data: function() {
     return {
-      users: []
-    }
+      model: user
+    };
   },
   mounted: function() {
-    this.getUsers();  
+    this.load();  
   },
-  methods: {
-    deleteUser(id, index){
-      user.delete(id);
-      this.users.splice(index,1);      
-    },
-    getUsers(){
-      let self = this;
-      user.get().then(function(result) {
-        self.users = result;
-      });  
-    }
-  } 
-    
-}
+};
 </script>
 
 <style lang="scss">
@@ -58,6 +47,5 @@ table th {
   color: green;
 }
 </style>
-
 
 

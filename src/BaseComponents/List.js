@@ -6,15 +6,12 @@ export default {
     };
   },
   props: {
-    data: Object,
+    initData: Object,
     filter: String
-  },
-  mounted(){
-    if ( this.data ){}
   },
   methods: {
     async load( filter ){
-      let res = await this.model.get( filter );
+      let res = await this.model.get( filter || '' );
       this.fillData( res );
       this.$emit( 'loaded', res );
     },

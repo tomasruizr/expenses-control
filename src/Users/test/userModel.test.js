@@ -1,7 +1,20 @@
 import { assert } from 'chai';
 import user from '../userModel';
 import fetchMock from 'fetch-mock';
-
+let params = {
+  get:[],
+  post:[{ name: 'some name' }],
+  put:[ 12, { name: 'some name' }],
+  patch:[ 12,{ name: 'some name' }],
+  delete: [12]
+};
+let routeCalled = {
+  get: '/user/',
+  post:'/user/',
+  put:`/user/${ params.put[0]}`,
+  patch:`/user/${ params.patch[0]}`,
+  delete: `/user/${ params.delete[0]}`
+};
 describe( 'user model', function() {
   before(() => {
     fetchMock.mock( '*', {});
@@ -24,9 +37,10 @@ describe( 'user model', function() {
     'delete'
   ].forEach( method => {
     it( `maps correctly the function ${method} and the http method ${method.toUpperCase()}`, ( done ) => {
-      user[method]().then(() => {
-        let call = fetchMock.lastCall( '/user/', method.toUpperCase());
-        assert.equal( call[0], '/user/' );
+      user[method]( ...params[method]).then(() => {
+        let call = fetchMock.lastCall( routeCalled[method], method.toUpperCase());
+        assert( call, 'No calls made for method' );
+        assert.equal( call[0], routeCalled[method]);
         assert.equal( call[1].method, method.toUpperCase());
         done();
       })
@@ -35,6 +49,5 @@ describe( 'user model', function() {
         });
     });
   });
-        
 });
 

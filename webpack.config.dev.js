@@ -1,11 +1,14 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { VueLoaderPlugin } from 'vue-loader';
+import webpack from 'webpack';
 
 export default {
   mode: 'development',
   devtool: '#eval-source-map',
   entry: [
+    'babel-polyfill',
+    'webpack-hot-middleware/client',
     path.resolve( __dirname, 'src/index' )
   ],
   target: 'web',
@@ -21,12 +24,13 @@ export default {
     }
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new VueLoaderPlugin(),
     // Create HTML file that includes reference to bundled JS.
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       inject: true
-    }),
-    new VueLoaderPlugin()
+    })
   ],
   module: {
     rules: [
@@ -35,24 +39,25 @@ export default {
       { test: /\.sass$/, use: [ 'vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax' ], },
       { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
       { test: /\.(png|jpg|gif|svg)$/, loader: 'file-loader', options: { name: '[name].[ext]?[hash]' }},
-      { test: /\.vue$/, loader: 'vue-loader', options: {
-        loaders: {
+      { 
+        test: /\.vue$/, loader: 'vue-loader', options: {
+          loaders: {
           // Since sass-loader (weirdly) has SCSS as its default parse mode, we map
           // the "scss" and "sass" values for the lang attribute to the right configs here.
           // other preprocessors should work out of the box, no loader config like this necessary.
-          scss: [
-            'vue-style-loader',
-            'css-loader',
-            'sass-loader'
-          ],
-          sass: [
-            'vue-style-loader',
-            'css-loader',
-            'sass-loader?indentedSyntax'
-          ]
-        }
+            scss: [
+              'vue-style-loader',
+              'css-loader',
+              'sass-loader'
+            ],
+            sass: [
+              'vue-style-loader',
+              'css-loader',
+              'sass-loader?indentedSyntax'
+            ]
+          }
         // other vue-loader options go here
-      }
+        }
       }
     ]
   }
