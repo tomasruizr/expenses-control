@@ -25,14 +25,8 @@
 </template>
 
 <script>
-import user from './userModel';
 export default {
   name: 'user-list',
-  data: function() {
-    return {
-      model: user
-    };
-  },
   props:{
     data: Array
   },

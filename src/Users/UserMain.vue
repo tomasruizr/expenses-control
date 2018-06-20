@@ -20,11 +20,15 @@ export default {
     };
   },
   mounted(){
-    user.get().then(( data ) => {
-      this.users = data;
-    });
+    this.init();
   },
   methods: {
+    init(){
+      return user.get().then(( data ) => {
+        console.log( 'asigne la data' );
+        this.users = data;
+      });
+    },
     editSaved( data ){
       this.editUser = {};
       let method = this.isNew ? 'post' : 'put';
@@ -38,9 +42,8 @@ export default {
       this.isNew = false;
       this.editUser = user;
     },
-    listDelete( data, index ){
-      user.delete( data.id ).then(( response ) => {
-      });
+    listDelete( data ){
+      user.delete( data.id );
     },
   }
 };
