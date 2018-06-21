@@ -6,9 +6,11 @@
 </template>
 
 <script>
+import model from '../Api/model';
+import userModel from './userModel';
 import UserList from './UserList.vue';
 import UserEdit from './UserEdit.vue';
-import user from './userModel';
+let user;
 export default {
   name:'user-main',
   components: { UserList, UserEdit },
@@ -23,7 +25,8 @@ export default {
     this.init();
   },
   methods: {
-    init(){
+    init( modelInstance ){
+      user = userModel( modelInstance || model );
       return user.get().then(( data ) => {
         console.log( 'asigne la data' );
         this.users = data;

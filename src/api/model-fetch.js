@@ -3,73 +3,39 @@
  * Exposes methods 'get', 'post', 'put', 'patch', 'delete' based on fetch.
  * In case you want to implement with some other library like axios, make the change here.
  */
-import socketIOClient from 'socket.io-client';
-import sailsIOClient from 'sails.io.js';
+import 'whatwg-fetch';
 import getBaseUrl from './baseUrl';
+import { stringify } from 'querystring';
 
-let io; 
-try{
-  io = sailsIOClient( socketIOClient );
-} catch ( error ){
-  if ( !/has already been augmented/mig.test( error.message ))
-    throw error;
-  io = socketIOClient;
-}
 let model = function( options = {}){
-  assignOptions( options );
-  this.options = {};
-  this.url = options.url || '';
+  this.options = Object.assign({},{
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    baseUrl: getBaseUrl(),
+    url: ''
+  }, options );
 };
-
-model.prototype.__defineGetter__( 'url', () => {
-  return io.sails.url;
-});
-model.prototype.__defineSetter__( 'url', ( newUrl ) => {
-  io.sails.url = newUrl;
-});
-model.prototype.__defineGetter__( 'headers', () => {
-  return io.sails.headers;
-});
-model.prototype.__defineSetter__( 'headers', ( newHeader ) => {
-  io.sails.headers = newHeader;
-});
-
-function assignOptions( options ) {
-  io.sails.url = options.baseUrl || io.sails.url || getBaseUrl();
-  io.sails.autoConnect = options.autoConnect || io.sails.autoConnect || 'true';
-  io.sails.environment = options.environment || io.sails.environment || process.env.NODE_ENV;
-  io.sails.headers = options.headers || io.sails.headers || { 'Content-Type': 'application/json' };
-  // io.sails.headers='{ "x-csrf-token": "<%= typeof _csrf !== 'undefined' ? _csrf : '' %>" }'
-}
-
-model.prototype.assignOptions = function( options ) {
-  return assignOptions( options );
-};
-
 
 [
   'get',
   'delete'
 ].forEach( method => {
   model.prototype[method] = function( query, options = {}){
-    let data;
     if ( method === 'delete' && !query ){
       throw new Error( 'Should specify an id for deleting a record' );
     }
     if ( typeof query === 'object' ) {
-      data = query;
+      query = `?${ stringify( query )}`;
     } else {
       if ( typeof query === 'string' && /\?/mig.test( query )){
         query = ( query ).replace( /^\?/mig, '' );
         query = `?${ query}`;
       }
     }
-    options.url += ( query || '' );
+    query = query || '';
     options.method = method.toUpperCase();
-    
-    return new Promise(( resolve ) => {
-      io.socket.request( Object.assign({}, this.options, options ), resolve );
-    });
+    return fetch( this.options.baseUrl + this.options.url + query, Object.assign({}, this.options, options ))
+      .then( onSuccess, onError );
   };
 });
 

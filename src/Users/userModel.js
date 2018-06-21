@@ -1,5 +1,11 @@
 import model from '../Api/model';
 import { createNew } from 'trutils';
-
-const userModel = createNew( model, { url: 'user/' });
+let instance;
+let userModel = function( modelInstance ){
+  if ( !instance ){
+    console.log( 'instancie model +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++' );
+    instance = createNew( modelInstance || model, { url: 'user/' });
+  }
+  return instance;
+};
 export default userModel;

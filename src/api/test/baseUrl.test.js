@@ -1,6 +1,6 @@
 import { assert } from 'chai';
-import getBaseUrl from './baseUrl';
-import env from '../../config/env';
+import getBaseUrl from '../baseUrl';
+import env from '../../../config/env';
 
 describe( 'baseUrl', function() {
   it( 'returns env.staticData if useStatic is passed as true', function() {

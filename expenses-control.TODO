@@ -1,0 +1,24 @@
+expenses-control:
+Operations:
+  ☐ register a User
+    ☐ CRUD
+    ☐ Team
+    ☐ Permisology
+  ☐ register accounts
+  ☐ register a Budget
+    ☐ Set Name
+    ☐ Set Amount or Porcentage
+    ☐ Define is estimated by last month, current month, or other
+  ☐ Register Goals
+    ☐ Set Budget
+    ☐ Time to acomplish desired
+    ☐ Define Goal Forecast:
+      ☐ Given I a porcentage structure, excedents, time to acomplish of goals.
+        ☐ How to structure the porcentages to achieve goal
+  ☐ register an operation:
+    ☐ Set Category
+    ☐ Set Tag
+    ☐ Set Descriptions
+    ☐ Set Budget
+  ☐ Register templates operation
+    ☐ Set predefined things.
