@@ -7,10 +7,11 @@ import cheerio from 'cheerio';
 fetchMock.getOnce( '*', []);
 import UserList from '../UserList.vue';
 import user from '../userModel';
-let get, del;
+let get, del, wrapper;
 describe( 'UserList.vue', function() {
-  const wrapper = shallowMount( UserList );
-  before(() => {
+  before( function () {
+    this.jsdom = require( 'jsdom-global' )();
+    wrapper = shallowMount( UserList );
     get = sinon.stub( user, 'get' ).callsFake(() => {
       return new Promise(( resolve ) => {
         resolve([{ id: 1,firstName:'Bob',lastName:'Smith',email:'bob@gmail.com' }]);
@@ -25,6 +26,7 @@ describe( 'UserList.vue', function() {
   after(() => {
     get.restore();
     del.restore();
+    this.jsdom();
   });
   it( 'Is Loaded has a h1 tag that says Users', () => {
     let $ = cheerio.load( wrapper.html());
