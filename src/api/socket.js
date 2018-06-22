@@ -22,89 +22,82 @@ let socket = function( options = {}){
   io.sails.useCORSRouteToGetCookie = true;
   io.sails.reconnection = false;
   io.sails.autoConnect = false;
-  this.io = io.sails.connect( options.baseUrl || getBaseUrl());
+  this.io = Object.assign( io.sails.connect( options.baseUrl || getBaseUrl()));
   delete options.baseUrl;
   this.options = Object.assign({},{
     headers: { 'Content-Type': 'application/json' },
     url: ''
   }, options );
 };
-
-// socket.prototype.__defineGetter__( 'url', function() {
-//   return this.io.sails.url;
-// });
-// socket.prototype.__defineSetter__( 'url', function( newUrl ) {
-//   this.io.sails.url = newUrl;
-// });
-
-// function assignOptions( options ) {
-//   io.sails.url = options.baseUrl || io.sails.url || getBaseUrl();
-//   io.sails.autoConnect = options.autoConnect || io.sails.autoConnect || 'true';
-//   io.sails.environment = options.environment || io.sails.environment || process.env.NODE_ENV;
-//   io.sails.headers = options.headers || io.sails.headers || { 'Content-Type': 'application/json' };
-//   // io.sails.headers='{ "x-csrf-token": "<%= typeof _csrf !== 'undefined' ? _csrf : '' %>" }'
-// }
-
-// socket.prototype.assignOptions = function( options ) {
-//   return assignOptions( options );
+// socket.prototype.connect = function( server ) {
+//   this.io.sails.connect( server );
 // };
 
-socket.prototype.connect = function( server ) {
-  this.io.sails.connect( server );
+socket.prototype.on = function() {
+  return this.io.on.apply( this.io, arguments );
 };
-
+socket.prototype.off = function() {
+  return this.io.off.apply( this.io, arguments );
+};
+socket.prototype.connect = function() {
+  return this.io.connect.apply( this.io, arguments );
+};
+socket.prototype.disconnect = function() {
+  return this.io.disconnect.apply( this.io, arguments );
+};
 
 [
   'get',
+  'post',
   'delete'
 ].forEach( method => {
   socket.prototype[method] = function( data, options = {}){
     var self = this;
-    // if ( method === 'delete' && !data ){
-    //   throw new Error( 'Should specify an id for deleting a record' );
-    // }
+    options = Object.assign({}, this.options, options );
     options.method = method.toUpperCase();
     if ( data && typeof data !== 'object' ){
-      options.url += data;
+      options.url += `/${ data}`;
     }else {
-      options.data = stringify( data ) || undefined;
+      options.data = data; //stringify( data ) || undefined;
     }
-    options = Object.assign({}, this.options, options );
     return new Promise(( resolve ) => {
       self.io.request( options, ( body, JWR ) => {
-        resolve ( JWR );
+        resolve( onSuccess( JWR ));
       });
     });
   };
 });
 
 [
-  'post',
   'put',
   'patch',
 ].forEach( method => {
   socket.prototype[method] = function( data, options = {}){
-    if ( !data ){
-      throw new Error( 'Should include data for the POST operation' );
+    let self = this;
+    if ( !data || typeof data !== 'object' ){
+      throw new Error( 'Should include an object with the model as parameter' );
     }
-    if ([ 'put', 'patch' ].includes( method ) && !data.id ){
+    if ( !data.id ){
       throw new Error( 'You have to privide an ID and some data to update a document.' );
     }
-    let id = data.id || '';
+    options = Object.assign({}, this.options, options );
+    options.url += `/${ data.id}`;
     options.method = method.toUpperCase();
-    options.body = JSON.stringify( data );
-    return fetch( this.options.baseUrl + this.options.url + id, Object.assign({}, this.options, options ))
-      .then( onSuccess, onError );
+    options.data = data;
+    return new Promise(( resolve ) => {
+      self.io.request( options, ( body, JWR ) => {
+        resolve( onSuccess( JWR ));
+      });
+    });
   };
 });
 
-
 function onSuccess( response ) {
-  if ( response.status >= 200 && response.status < 300 ) {
-    return response.json();
+  if ( response.statusCode >= 200 && response.statusCode < 300 ) {
+    return { body : response.body, status: response.statusCode };
   } else {
-    var error = new Error( response.statusText );
-    error.response = response;
+    var error = new Error( response.error );
+    error.status = response.statusCode;
     throw error;
   }
 }

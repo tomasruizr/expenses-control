@@ -62,7 +62,7 @@ let model = function( options = {}){
 
 function onSuccess( response ) {
   if ( response.status >= 200 && response.status < 300 ) {
-    return response.json();
+    return { body : response.json(), status: response.status };
   } else {
     var error = new Error( response.statusText );
     error.response = response;
