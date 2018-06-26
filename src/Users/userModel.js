@@ -1,10 +1,9 @@
-import model from '../Api/model';
+// import model from '../Api/model';
 import { createNew } from 'trutils';
 let instance;
 let userModel = function( modelInstance ){
   if ( !instance ){
-    console.log( 'instancie model +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++' );
-    instance = createNew( modelInstance || model, { url: 'user/' });
+    instance = createNew( modelInstance );// || model, { url: 'user/' });
   }
   return instance;
 };

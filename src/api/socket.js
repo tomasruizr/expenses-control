@@ -9,7 +9,7 @@ const socketIO = require( 'socket.io-client' );
 const sailsIO = require( 'sails.io.js' );
 
 import getBaseUrl from './baseUrl';
-import { stringify } from 'querystring';
+// import { stringify } from 'querystring';
 
 let socket = function( options = {}){
   let io; 

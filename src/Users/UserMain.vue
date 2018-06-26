@@ -6,38 +6,56 @@
 </template>
 
 <script>
-import model from '../Api/model';
-import userModel from './userModel';
+// import socket from '../Api/socket';
+// import model from '../Api/model';
+// import userModel from './userModel';
 import UserList from './UserList.vue';
 import UserEdit from './UserEdit.vue';
 let user;
 export default {
   name:'user-main',
   components: { UserList, UserEdit },
+  props : {
+    model: { type: Object }
+  },
   data(){
     return {
+      user: {},
       isNew:true,
       users:[],
       editUser:{}
     };
   },
   mounted(){
-    this.init();
+    this.init( this.model );
   },
   methods: {
     init( modelInstance ){
-      user = userModel( modelInstance || model );
-      return user.get().then(( data ) => {
-        console.log( 'asigne la data' );
-        this.users = data;
+      this.user = modelInstance;// || this.isSocket ? socket : model );
+      this.user.on( 'user', this.manageSocketEvent );
+      return this.user.get().then(( data ) => {
+        this.users = data.body;
       });
     },
+
+    manageSocketEvent( message ){
+      if ( message.verb === 'created' ){
+        return this.users.push( message.data );
+      } 
+      let index = this.users.findIndex(( item ) => item.id == message.id );
+      if ( message.verb === 'destroyed' )
+        this.users.splice( index,1 );
+      else if ( message.verb === 'updated' )
+        this.users.splice( index,1, message.data );
+        // this.users[index] = message.data;
+    },
+
     editSaved( data ){
       this.editUser = {};
       let method = this.isNew ? 'post' : 'put';
-      user[method]( data ).then(( response ) => {
+      this.user[method]( data ).then(( response ) => {
         if ( method === 'post' )
-          this.users.push( response );
+          this.users.push( response.body );
       });
       this.isNew = true;
     },
@@ -46,7 +64,7 @@ export default {
       this.editUser = user;
     },
     listDelete( data ){
-      user.delete( data.id );
+      this.user.delete( data.id );
     },
   }
 };

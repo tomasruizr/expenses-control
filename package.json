@@ -8,7 +8,7 @@
   "scripts": {
     "add-to-bash": "npm completion >> ~/.bashrc && source ~/.bashrc",
     "prestart": "babel-node buildScripts/startMessage.js",
-    "start": "npm-run-all --parallel security-check open:src lint:watch start-mockapi",
+    "start": "npm-run-all --parallel security-check open:src lint:watch start-sails",
     "open:src": "babel-node buildScripts/srcServer.js",
     "lint": "esw webpack.config.* src buildScripts --color",
     "lint:watch": "npm run lint -- --watch",
@@ -20,6 +20,7 @@
     "generate-mock-data": "babel-node buildScripts/generateMockData",
     "prestart-mockapi": "npm run generate-mock-data",
     "start-mockapi": "json-server --watch buildScripts/db.json --port 3001",
+    "start-sails": "node devAPI/app.js --port 3001",
     "clean-dist": "rimraf ./dist && mkdir dist",
     "prebuild": "npm-run-all clean-dist test lint",
     "build": "babel-node buildScripts/build.js",

@@ -7,6 +7,12 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch devAPI",
+            "program": "${workspaceFolder}/devAPI/app.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Mocha Tests",
             "program": "${workspaceFolder}/node_modules/mocha-webpack/bin/_mocha",
             "skipFiles": [

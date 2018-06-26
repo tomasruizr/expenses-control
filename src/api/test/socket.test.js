@@ -267,7 +267,7 @@ describe( 'on event', function() {
       assert.equal( data.id, 34 );
       assert.equal( data.data.id, 34 );
       assert.equal( data.data.name, 'onEvent' );
-      socket.io.delete( `/operation/${data.data.id}`, ( data ) => {
+      socket.io.delete( `/operation/${data.data.id}`, () => {
         done();
       });
     });
