@@ -64,7 +64,7 @@ function onSuccess( response ) {
   if ( response.status >= 200 && response.status < 300 ) {
     return { body : response.json(), status: response.status };
   } else {
-    var error = new Error( response.statusText );
+    var error = new Error( response.error );
     error.response = response;
     throw error;
   }

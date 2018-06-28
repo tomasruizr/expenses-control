@@ -29,6 +29,8 @@
                 "--colors",
                 "-r",
                 "${workspaceFolder}/buildScripts/testSetup.js",
+                // "-r",
+                // "jsdom-global/register",
                 "--interactive",
                 "false"
             ],

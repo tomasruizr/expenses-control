@@ -6,12 +6,8 @@
 </template>
 
 <script>
-// import socket from '../Api/socket';
-// import model from '../Api/model';
-// import userModel from './userModel';
 import UserList from './UserList.vue';
 import UserEdit from './UserEdit.vue';
-let user;
 export default {
   name:'user-main',
   components: { UserList, UserEdit },
@@ -32,7 +28,9 @@ export default {
   methods: {
     init( modelInstance ){
       this.user = modelInstance;// || this.isSocket ? socket : model );
-      this.user.on( 'user', this.manageSocketEvent );
+      if ( this.user.on ){
+        this.user.on( 'user', this.manageSocketEvent );
+      }
       return this.user.get().then(( data ) => {
         this.users = data.body;
       });

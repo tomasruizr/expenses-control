@@ -1,12 +1,14 @@
 import { assert } from 'chai';
 import Socket from '../socket';
 import { createNew } from 'trutils';
+import env from '../../../config/env';
 
 let socket; 
 describe( 'socket of some resource', function() {
   before(( done ) => {
-    socket = createNew( Socket, { baseUrl:'http://localhost:1337/', url:'/operation' });
+    socket = createNew( Socket, { baseUrl: env.api , url:'/test', useCORSRouteToGetCookie:false });
     socket.io.on( 'connect', done );
+    // window._sailsIoJSConnect();
   });
   after(() => {
     socket.io.disconnect();
@@ -61,12 +63,12 @@ describe( 'socket of some resource', function() {
         before(( done ) => {
           Promise.all([
             new Promise(( resolve ) => {
-              socket.io.post( '/operation', { id:123, name:'test1' }, () => {
+              socket.io.post( '/test', { id:123, name:'test1' }, () => {
                 resolve();
               });
             }),
             new Promise(( resolve ) => {
-              socket.io.post( '/operation', { id:124, name:'test2' }, () => {
+              socket.io.post( '/test', { id:124, name:'test2' }, () => {
                 resolve();
               });
             })
@@ -77,12 +79,12 @@ describe( 'socket of some resource', function() {
         after(( done ) => {
           Promise.all([
             new Promise(( resolve ) => {
-              socket.io.delete( '/operation/123', () => {
+              socket.io.delete( '/test/123', () => {
                 resolve();
               });
             }),
             new Promise(( resolve ) => {
-              socket.io.delete( '/operation/124', () => {
+              socket.io.delete( '/test/124', () => {
                 resolve();
               });
             })
@@ -127,7 +129,7 @@ describe( 'socket of some resource', function() {
 
       describe( 'post', function() {
         after(( done ) => {
-          socket.io.delete( '/operation/123', () => {
+          socket.io.delete( '/test/123', () => {
             done();
           });
         });
@@ -149,12 +151,12 @@ describe( 'socket of some resource', function() {
         before(( done ) => {
           Promise.all([
             new Promise(( resolve ) => {
-              socket.io.post( '/operation', { id:123, name:'test1' }, () => {
+              socket.io.post( '/test', { id:123, name:'test1' }, () => {
                 resolve();
               });
             }),
             new Promise(( resolve ) => {
-              socket.io.post( '/operation', { id:124, name:'test2' }, () => {
+              socket.io.post( '/test', { id:124, name:'test2' }, () => {
                 resolve();
               });
             })
@@ -165,12 +167,12 @@ describe( 'socket of some resource', function() {
         after(( done ) => {
           Promise.all([
             new Promise(( resolve ) => {
-              socket.io.delete( '/operation/123', () => {
+              socket.io.delete( '/test/123', () => {
                 resolve();
               });
             }),
             new Promise(( resolve ) => {
-              socket.io.delete( '/operation/124', () => {
+              socket.io.delete( '/test/124', () => {
                 resolve();
               });
             })
@@ -207,12 +209,12 @@ describe( 'socket of some resource', function() {
         before(( done ) => {
           Promise.all([
             new Promise(( resolve ) => {
-              socket.io.post( '/operation', { id:123, name:'test1' }, () => {
+              socket.io.post( '/test', { id:123, name:'test1' }, () => {
                 resolve();
               });
             }),
             new Promise(( resolve ) => {
-              socket.io.post( '/operation', { id:124, name:'test2' }, () => {
+              socket.io.post( '/test', { id:124, name:'test2' }, () => {
                 resolve();
               });
             })
@@ -250,9 +252,9 @@ describe( 'socket of some resource', function() {
 });
 describe( 'on event', function() {
   before(( done ) => {
-    socket = createNew( Socket, { baseUrl:'http://localhost:1337/', url:'/operation' });
+    socket = createNew( Socket, { baseUrl: env.api, url:'/test' });
     socket.io.on( 'connect', () => {
-      socket.io.get( '/operation', () => {
+      socket.io.get( '/test', () => {
         done();
       });
     });
@@ -261,16 +263,16 @@ describe( 'on event', function() {
     socket.io.disconnect();
   });
   it( 'subscribe to a model', ( done ) => {
-    socket.on( 'operation', ( data ) => {
+    socket.on( 'test', ( data ) => {
       assert.exists( data );
       assert.equal( data.verb, 'created' );
       assert.equal( data.id, 34 );
       assert.equal( data.data.id, 34 );
       assert.equal( data.data.name, 'onEvent' );
-      socket.io.delete( `/operation/${data.data.id}`, () => {
+      socket.io.delete( `/test/${data.data.id}`, () => {
         done();
       });
     });
-    fetch( 'http://localhost:1337/operation?name=onEvent&id=34',{ method:'POST' });
+    fetch( `${env.api}/test?name=onEvent&id=34`,{ method:'POST' });
   });
 });

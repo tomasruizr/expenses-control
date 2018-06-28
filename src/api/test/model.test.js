@@ -18,12 +18,16 @@ let routeCalled = {
   patch:'/resources/12',
   delete: `/resources/${ params.delete[0]}`
 };
-describe.skip( 'model of some resource', function() {
+describe( 'model of some resource', function() {
   before(() => {
     fetchMock.mock( '*', {});
+    this.jsdom = require( 'jsdom-global' )();
     model = createNew( Model, { url:'resources/' });
   });
-  after( fetchMock.restore );
+  after(() => {
+    fetchMock.restore();
+    this.jsdom();
+  });
   it( 'contains the http methods as functions', function() {
     assert.exists( model.get );
     assert.exists( model.post );
@@ -45,8 +49,8 @@ describe.skip( 'model of some resource', function() {
     it( 'should throw the error of the response if it reaches success function', function() {
       let onSuccess = global.moduleTests.modeljs.onSuccess;
       let response = {
-        status: 400,
-        statusText: 'There was a problem'
+        statusCode: 400,
+        error: 'There was a problem'
       };
       try{
         onSuccess( response );

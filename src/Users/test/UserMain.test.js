@@ -2,15 +2,17 @@ import { mount } from '@vue/test-utils';
 import { assert } from 'chai';
 import fetchMock from 'fetch-mock';
 import sinon from 'sinon';
+import { createNew } from 'trutils';
 // import cheerio from 'cheerio';
 
 fetchMock.getOnce( '*', []);
-import user from '../userModel';
+import model from '../../Api/model';
 import UserMain from '../UserMain.vue';
-let get, del, wrapper;
+let user, get, del, wrapper;
 describe( 'UserMain.vue', function() {
   before(() => {
     this.jsdom = require( 'jsdom-global' )();
+    user = createNew( model, { url:'/user' });
     wrapper = mount( UserMain );
     get = sinon.stub( user, 'get' ).callsFake(() => {
       return new Promise(( resolve ) => {
