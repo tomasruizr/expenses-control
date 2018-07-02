@@ -2,6 +2,7 @@ import { assert } from 'chai';
 import Model from '../model';
 import fetchMock from 'fetch-mock';
 import { createNew } from 'trutils';
+import { emit } from 'cluster';
 
 let model;
 let params = {
@@ -218,6 +219,41 @@ describe( 'model of some resource', function() {
           done( err );
         });
       });
+    });
+  });
+  describe( 'delete exceptions', function() {
+    it( 'throws an error if no id provided', () => {
+      try{
+        model.delete();
+      } catch ( e ){
+        assert.equal( e.message, 'Should specify an id for deleting a record' );
+      }
+    });
+  });
+  describe( 'post, put and patch exceptions', function() {
+    it( 'throws an error if no data is passed', () => {
+      try{
+        model.post();
+      } catch ( e ){
+        assert.equal( e.message, 'Should include data for the POST, PUT and PATCH operations' );
+      }
+      try{
+        model.put();
+      } catch ( e ){
+        assert.equal( e.message, 'Should include data for the POST, PUT and PATCH operations' );
+      }
+      try{
+        model.patch();
+      } catch ( e ){
+        assert.equal( e.message, 'Should include data for the POST, PUT and PATCH operations' );
+      }
+    });
+    it( 'Put and Patch throws an error in data has no id property',() => {
+      try{
+        model.patch({ name: 'someName' });
+      } catch ( e ){
+        assert.equal( e.message, 'You have to privide an ID and some data to update a document.' );
+      }
     });
   });
 });

@@ -8,7 +8,6 @@ describe( 'socket of some resource', function() {
   before(( done ) => {
     socket = createNew( Socket, { baseUrl: env.api , url:'/test', useCORSRouteToGetCookie:false });
     socket.io.on( 'connect', done );
-    // window._sailsIoJSConnect();
   });
   after(() => {
     socket.io.disconnect();

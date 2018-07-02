@@ -6,23 +6,20 @@
  */
 
 module.exports = {
-  primaryKey :'id',
   attributes: {
     id: {
       type: 'number',
       unique: true,
-      // required: true,
       autoIncrement: true
     },
-    email: {
+    name: {
       type: 'string',
-      isEmail: true,
     },
-    firstName: {
-      type: 'string'
+    amount: {
+      type: 'number'
     },
-    lastName: {
-      type: 'string'
+    isPercentage: {
+      type: 'boolean'
     },
   },
 

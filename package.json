@@ -7,36 +7,38 @@
   "license": "MIT",
   "scripts": {
     "add-to-bash": "npm completion >> ~/.bashrc && source ~/.bashrc",
-    "prestart": "babel-node buildScripts/startMessage.js",
-    "start": "npm-run-all --parallel security-check open:src lint:watch start-sails",
-    "open:src": "babel-node buildScripts/srcServer.js",
+    "security-check": "nsp check",
     "lint": "esw webpack.config.* src buildScripts --color",
     "lint:watch": "npm run lint -- --watch",
-    "security-check": "nsp check",
-    "localtunnel": "lt --port 3000",
-    "share": "npm-run-all --parallel open:src localtunnel",
-    "temp":"mocha-webpack --reporter spec --webpack-config webpack.config.test.js  \"src/Users/test/UserList.test.js\" -r buildScripts/testSetup.js --interactive false",
-    "run-test": "nyc --reporter=lcov --reporter=text mocha-webpack --reporter spec --webpack-config webpack.config.test.js  \"src/**/*.test.js\" -r buildScripts/testSetup.js --interactive false",
-    "test": "npm-run-all --parallel start-sails run-test",
+    "open:src": "babel-node buildScripts/srcServer.js",
+    "prestart": "babel-node buildScripts/startMessage.js",
+    "start": "npm-run-all --parallel security-check open:src lint:watch",
+    "generate-mock-data": "babel-node buildScripts/generateMockData",
+    "prestart-mockapi": "npm run generate-mock-data",
+    "start-sails": "node devAPI/app.js --port 3001",
+    "start-mockapi": "json-server --watch buildScripts/db.json --port 3001",
+    "vuetest": "mocha-webpack --reporter spec --webpack-config webpack.config.test.js  \"src/**/*.vue-test.js\" -r buildScripts/testSetup.js -r jsdom-global/register --interactive false",
+    "utest": "mocha-webpack --reporter spec --webpack-config webpack.config.test.js  \"src/**/*.test.js\" -r buildScripts/testSetup.js --interactive false",
+    "tests": "npm-run-all -s utest vuetest",
+    "test": "nyc --reporter=lcov --reporter=text npm-run-all --parallel start-sails tests",
     "pretest:watch": "npm run start-sails",
     "testw": "npm-run-all --parallel start-sails run-test:watch",
     "run-test:watch": "mocha-webpack --watch --reporter spec --webpack-config webpack.config.test.js  \"src/**/*.test.js\" -r buildScripts/testSetup.js --interactive false",
-    "generate-mock-data": "babel-node buildScripts/generateMockData",
-    "prestart-mockapi": "npm run generate-mock-data",
-    "start-mockapi": "json-server --watch buildScripts/db.json --port 3001",
-    "start-sails": "node devAPI/app.js --port 3001",
     "clean-dist": "rimraf ./dist && mkdir dist",
     "prebuild": "npm-run-all clean-dist test lint",
     "build": "babel-node buildScripts/build.js",
     "build:only": "npm-run-all clean-dist test lint && babel-node buildScripts/build.js",
     "postbuild": "babel-node buildScripts/distServer.js",
-    "deploy": "surge ./dist"
+    "deploy": "surge ./dist",
+    "localtunnel": "lt --port 3000",
+    "share": "npm-run-all --parallel open:src localtunnel"
   },
   "dependencies": {
     "sails.io.js": "^1.2.1",
     "socket.io-client": "^2.1.1",
     "trutils": "github:tomasruizr/trutils",
     "vue": "^2.5.16",
+    "vuex": "^3.0.1",
     "whatwg-fetch": "2.0.4"
   },
   "devDependencies": {
@@ -95,6 +97,10 @@
   "nyc": {
     "include": [
       "src/**/*.(js|vue)"
+    ],
+    "exclude": [
+      "src/**/*.test.js",
+      "src/**/*.vue-test.js"
     ],
     "instrument": false,
     "sourceMap": false,

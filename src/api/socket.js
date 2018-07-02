@@ -10,19 +10,20 @@ const sailsIO = require( 'sails.io.js' );
 
 import getBaseUrl from './baseUrl';
 // import { stringify } from 'querystring';
-
+let io;
+if ( !io || !socketIO.sails ){
+  io = sailsIO( socketIO );
+} else {
+  io = io || socketIO;
+}
+let ios = {};
 let socket = function( options = {}){
-  let io; 
-  if ( socketIO.sails ) {
-    io = socketIO;
-  } else {
-    io = sailsIO( socketIO );
-  }
   io.sails.transports = options.transports || ['websocket'];
   io.sails.useCORSRouteToGetCookie = options.useCORSRouteToGetCookie === false ? false : true;
   io.sails.reconnection = options.reconnection || false;
   io.sails.autoConnect = options.autoConnect || false;
-  this.io = Object.assign( io.sails.connect( options.baseUrl || getBaseUrl()));
+  let baseUrl = options.baseUrl || getBaseUrl();
+  this.io = ios[baseUrl] = ios[baseUrl] || Object.assign( io.sails.connect( baseUrl ));
   delete options.baseUrl;
   this.options = Object.assign({},{
     headers: { 'Content-Type': 'application/json' },

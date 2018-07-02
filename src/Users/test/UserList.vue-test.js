@@ -1,16 +1,14 @@
-// require( 'jsdom-global' )( '', { url: 'http://localhost:3001/' });
-console.log( window );
-import { shallowMount, mount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import { assert } from 'chai';
 import cheerio from 'cheerio';
 import { createNew } from 'trutils';
 import UserList from '../UserList.vue';
 import model from '../../Api/model';
 let user, get, del, wrapper;
-describe.only( 'UserList.vue', function() {
+describe( 'UserList.vue', function() {
   before( function () {
     user = createNew( model, { url:'/user' });
-    wrapper = mount( UserList );
+    wrapper = shallowMount( UserList );
     // , { propsData: { data: [{ id: 123, firstName:'tomas', lastName:'Ruiz', email:'tomasriuzr@gmail.com' }]}}
     // get = sinon.stub( user, 'get' ).callsFake(() => {
     //   return new Promise(( resolve ) => {

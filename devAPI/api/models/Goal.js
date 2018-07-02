@@ -6,24 +6,27 @@
  */
 
 module.exports = {
-  primaryKey :'id',
   attributes: {
     id: {
       type: 'number',
       unique: true,
-      // required: true,
       autoIncrement: true
     },
-    email: {
-      type: 'string',
-      isEmail: true,
-    },
-    firstName: {
+    name:{
       type: 'string'
     },
-    lastName: {
+    timeToComplete: {
+      type: 'number',
+    },
+    timeUnits: {
       type: 'string'
     },
+    amount: {
+      type: 'number'
+    },
+    budget: {
+      model: 'budget'
+    }
   },
 
 };

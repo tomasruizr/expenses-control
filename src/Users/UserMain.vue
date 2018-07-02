@@ -40,7 +40,7 @@ export default {
       if ( message.verb === 'created' ){
         return this.users.push( message.data );
       } 
-      let index = this.users.findIndex(( item ) => item.id == message.id );
+      let index = this.users.findIndex(( item ) => item.id === message.id );
       if ( message.verb === 'destroyed' )
         this.users.splice( index,1 );
       else if ( message.verb === 'updated' )

@@ -1,10 +1,9 @@
 <template>
-<div id="user-edit">
+<div id="account-edit">
   <form @submit="submit">
-    <h1>New user</h1>
-    <input type="text" v-model="data.firstName" placeholder="First Name">
-    <input type="text" v-model="data.lastName" placeholder="Last Name">
-    <input type="text" v-model="data.email" placeholder="email">
+    <h1>{{formTitle}}</h1>
+    <input type="text" v-model="data.name" placeholder="Name">
+    <input type="text" v-model="data.balance" placeholder="Balance">
     <input type="submit" :value="btnCaption">
   </form>
 </div>
@@ -16,6 +15,10 @@ export default {
     btnCaption: {
       type: String,
       default: 'Save'
+    },
+    formTitle: {
+      type: String,
+      default: 'New Account'
     }
   },
   methods:{

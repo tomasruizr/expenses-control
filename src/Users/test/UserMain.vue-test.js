@@ -9,7 +9,7 @@ fetchMock.getOnce( '*', []);
 import model from '../../Api/model';
 import UserMain from '../UserMain.vue';
 let user, get, del, wrapper;
-describe( 'UserMain.vue', function() {
+describe.skip( 'UserMain.vue', function() {
   before(() => {
     this.jsdom = require( 'jsdom-global' )();
     user = createNew( model, { url:'/user' });

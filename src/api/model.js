@@ -46,7 +46,7 @@ let model = function( options = {}){
 ].forEach( method => {
   model.prototype[method] = function( data, options = {}){
     if ( !data ){
-      throw new Error( 'Should include data for the POST operation' );
+      throw new Error( 'Should include data for the POST, PUT and PATCH operations' );
     }
     if ([ 'put', 'patch' ].includes( method ) && !data.id ){
       throw new Error( 'You have to privide an ID and some data to update a document.' );
