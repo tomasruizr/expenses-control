@@ -34,7 +34,6 @@ export default {
     },
     remove( account, index ){
       this.$emit( 'delete', account, index );
-      this.data.splice( index, 1 );
     }
   }
 };

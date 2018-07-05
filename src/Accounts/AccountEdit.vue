@@ -5,6 +5,7 @@
     <input type="text" v-model="data.name" placeholder="Name">
     <input type="text" v-model="data.balance" placeholder="Balance">
     <input type="submit" :value="btnCaption">
+    <a @click="$emit('cancel')" href="#">Cancel</a>
   </form>
 </div>
 </template>

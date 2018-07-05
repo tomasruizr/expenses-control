@@ -1,10 +1,10 @@
 <template>
   <div id="main-app">
     <operation-main :model="operationModel"/>
-    <!-- <goal-main :model="goalModel"/> -->
-    <budget-main :model="budgetModel"/>
     <account-main :model="accountModel"/>
-    <user-main :model="userModel"/>
+    <budget-main :model="budgetModel"/>
+    <!-- <goal-main :model="goalModel"/> -->
+    <!-- <user-main :model="userModel"/> -->
   </div>
 </template>
 
@@ -14,13 +14,16 @@ import GoalMain from './Goals/GoalMain.vue';
 import BudgetMain from './Budgets/BudgetMain.vue';
 import UserMain from './Users/UserMain.vue';
 import AccountMain from './Accounts/AccountMain.vue';
+import AccountLoader from './Accounts/AccountLoader.js';
+import BudgetLoader from './Budgets/BudgetLoader.js';
 import socket from './Api/socket';
 import { createNew } from 'trutils';
 // import env from '../config/env.js';
 export default {
   name:'main-app',
+  mixins : [ AccountLoader, BudgetLoader ],
   components: { OperationMain, GoalMain,BudgetMain, AccountMain, UserMain },
-  beforeCreate(){
+  created(){
     this.operationModel = createNew( socket, { url:'/operation' });
     this.goalModel = createNew( socket, { url:'/goal' });
     this.budgetModel = createNew( socket, { url:'/budget' });

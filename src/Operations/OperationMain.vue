@@ -1,6 +1,7 @@
 <template>
   <div id="operation-main">
-    <operation-edit :data="editOperation" @saved="editSaved"/>
+    <operation-edit v-show="showEdit" :accounts='accounts' :budgets='budgets' :data="editOperation" @saved="editSaved" @cancel="showEdit=false"/>
+    <button @click="showEdit=true" v-show="!showEdit">Add Operation</button>
     <operation-list :data="operations" @edit="listEdit" @delete="listDelete"/>
   </div>
 </template>
@@ -16,11 +17,20 @@ export default {
   },
   data(){
     return {
+      showEdit:false,
       operation: {},
       isNew:true,
       operations:[],
       editOperation:{}
     };
+  },
+  computed:{
+    accounts(){
+      return this.$store.state.accounts;
+    },
+    budgets(){
+      return this.$store.state.budgets;
+    },
   },
   mounted(){
     this.init( this.model );
@@ -49,21 +59,33 @@ export default {
     },
 
     editSaved( data ){
+      let sanitizedData = Object.assign({}, data );
+      sanitizedData.account = sanitizedData.account.id;
+      sanitizedData.budget = sanitizedData.budget.id;
       this.editOperation = {};
       let method = this.isNew ? 'post' : 'put';
-      this.operation[method]( data ).then(( response ) => {
+      this.operation[method]( sanitizedData ).then(( response ) => {
         if ( method === 'post' )
           this.operations.push( response.body );
       });
       this.isNew = true;
+      this.showEdit = false;
     },
     listEdit( operation ){
       this.isNew = false;
+      this.showEdit = true;
       this.editOperation = operation;
     },
-    listDelete( data ){
-      this.operation.delete( data.id );
+    listDelete( data, index ){
+      this.operation.delete( data.id ).then(() => {
+        this.operations.splice( index, 1 );
+      });
     },
   }
 };
 </script>
+<style lang="scss">
+#operation-main {
+  margin-top: 50px;
+}
+</style>

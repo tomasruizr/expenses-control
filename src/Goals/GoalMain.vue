@@ -61,8 +61,10 @@ export default {
       this.isNew = false;
       this.editGoal = goal;
     },
-    listDelete( data ){
-      this.goal.delete( data.id );
+    listDelete( data, index ){
+      this.goal.delete( data.id ).then(() => {
+        this.goals.splice( index,1 );
+      });
     },
   }
 };

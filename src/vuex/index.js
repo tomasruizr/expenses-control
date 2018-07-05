@@ -10,24 +10,33 @@ const state = {
 
 const store = new Vuex.Store({
   state,
-  actions:{
-    getAccounts({ commit }){
-
+  getters:{
+    getAccountById: ( state ) => ( id ) => {
+      return state.accounts.find( todo => todo.id === id );
+    },
+    getBudgetById: ( state ) => ( id ) => {
+      return state.budgets.find( todo => todo.id === id );
     }
   },
   mutations:{
-    addToStore( prop, value ){
-      if ( Array.isArray( value )){
-        store[prop].concat( value );
+    replaceStore( state, payload ){
+      state[payload.property] = Array.isArray( payload.value ) ? payload.value : [payload.value];
+    },
+    addToStore( state, payload ){
+      console.log( payload.property );
+      if ( Array.isArray( payload.value )){
+        state[payload.property] = state[payload.property].concat( payload.value );
       } else {
-        store[prop].push( value );
+        state[payload.property].push( payload.value );
       }
     },
-    updateIndex( prop, index, value ){
-      store[prop][index] = value;
+    updateId( state, payload ){
+      let index = state[payload.property].findIndex(( item ) => item.id === payload.value.id );
+      state[payload.property][index] = payload.value;
     },
-    deleteFromStore( prop, index ){
-      store[prop].splice( index, 1 );
+    deleteId( state, payload ){
+      let index = state[payload.property].findIndex(( item ) => item.id === payload.value.id );
+      state[payload.property].splice( index, 1 );
     }
   }
 });

@@ -1,6 +1,7 @@
 <template>
   <div id="account-main">
-    <account-edit :title="editTitle" :data="editAccount" @saved="editSaved"/>
+    <account-edit v-show="showEdit" :title="editTitle" :data="editAccount" @saved="editSaved" @cancel="showEdit=false"/> 
+    <button @click="showEdit=true" v-show="!showEdit">Add Account</button>
     <account-list :data="accounts" @edit="listEdit" @delete="listDelete"/>
   </div>
 </template>
@@ -16,9 +17,9 @@ export default {
   },
   data(){
     return {
+      showEdit:false,
       account: {},
       isNew:true,
-      accounts:[],
       editAccount:{}
     };
   },
@@ -26,49 +27,44 @@ export default {
     editTitle(){
       return this.isNew ? 'Create Account' : 'Edit Account';
     },
+    accounts() {
+      return this.$store.state.accounts;
+    }
   },
   mounted(){
     this.init( this.model );
   },
   methods: {
     init( modelInstance ){
-      this.account = modelInstance;// || this.isSocket ? socket : model );
-      if ( this.account.on ){
-        this.account.on( 'account', this.manageSocketEvent );
-      }
-      return this.account.get().then(( data ) => {
-        this.accounts = data.body;
-      });
+      this.account = modelInstance;
     },
-
-    manageSocketEvent( message ){
-      if ( message.verb === 'created' ){
-        return this.accounts.push( message.data );
-      } 
-      let index = this.accounts.findIndex(( item ) => item.id === message.id );
-      if ( message.verb === 'destroyed' )
-        this.accounts.splice( index,1 );
-      else if ( message.verb === 'updated' )
-        this.accounts.splice( index,1, message.data );
-        // this.accounts[index] = message.data;
-    },
-
     editSaved( data ){
       this.editAccount = {};
       let method = this.isNew ? 'post' : 'put';
       this.account[method]( data ).then(( response ) => {
         if ( method === 'post' )
-          this.accounts.push( response.body );
+          this.$store.commit( 'addToStore', { property:'accounts', value:response.body });
+        else
+          this.$store.commit( 'replaceStore', { property:'accounts', value:this.accounts });
       });
       this.isNew = true;
+      this.showEdit = false;
     },
     listEdit( account ){
       this.isNew = false;
       this.editAccount = account;
+      this.showEdit = true;
     },
     listDelete( data ){
-      this.account.delete( data.id );
+      this.account.delete( data.id ).then(() => {
+        this.$store.commit( 'deleteId', { property:'accounts', value:data });
+      });
     },
   }
 };
 </script>
+<style lang="scss">
+#account-main {
+  margin-top: 50px;
+}
+</style>

@@ -40,7 +40,6 @@ export default {
     },
     remove( goal, index ){
       this.$emit( 'delete', goal, index );
-      this.data.splice( index, 1 );
     }
   }
 };

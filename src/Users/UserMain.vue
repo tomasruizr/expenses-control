@@ -61,8 +61,10 @@ export default {
       this.isNew = false;
       this.editUser = user;
     },
-    listDelete( data ){
-      this.user.delete( data.id );
+    listDelete( data, index ){
+      this.user.delete( data.id ).then(() => {
+        this.users.splice( index, 1 );
+      });
     },
   }
 };
