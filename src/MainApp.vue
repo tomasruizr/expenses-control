@@ -1,8 +1,8 @@
 <template>
   <div id="main-app">
-    <operation-main :model="operationModel"/>
+    <!-- <operation-main :model="operationModel"/> -->
     <account-main :model="accountModel"/>
-    <budget-main :model="budgetModel"/>
+    <!-- <budget-main :model="budgetModel"/> -->
     <!-- <goal-main :model="goalModel"/> -->
     <!-- <user-main :model="userModel"/> -->
   </div>
