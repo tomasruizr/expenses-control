@@ -16,15 +16,15 @@
       </thead>
       <tbody id="operations">
         <tr v-for="(operation, index) in data" :key= "operation.id">
-          <td><a href="#" @click="$emit('edit', operation, index)" class="editOperation">Edit</a></td>
-          <td><a href="#" @click="remove(operation, index)" class="deleteOperation">Delete</a></td>
+          <td><a href="#" @click="edit(operation, index)" class="editOperation">Edit</a></td>
+          <td><a href="#" @click="$emit( 'delete', operation, index )" class="deleteOperation">Delete</a></td>
           <td>{{operation.id}}</td>
           <td>{{operation.Kind}}</td>
           <td>{{operation.name}}</td>
           <td>{{operation.amount}}</td>
           <td>{{operation.description}}</td>
-          <td>{{operation.budget ? operation.budget.name : "" }}</td>
-          <td>{{operation.account ? operation.account.name : "" }}</td>
+          <td>{{operation.budget ? $store.getters.getBudgetById( operation.budget ).name : "" }}</td>
+          <td>{{operation.account ? $store.getters.getAccountById( operation.account ).name : "" }}</td>
           <td>{{operation.tags}}</td>
         </tr>
       </tbody>
@@ -41,9 +41,6 @@ export default {
   methods:{
     edit( operation, index ){
       this.$emit( 'edit', operation, index );
-    },
-    remove( operation, index ){
-      this.$emit( 'delete', operation, index );
     }
   }
 };

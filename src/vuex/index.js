@@ -30,11 +30,11 @@ const store = new Vuex.Store({
       }
     },
     updateId( state, payload ){
-      let index = state[payload.property].findIndex(( item ) => item.id === payload.value.id );
+      let index = payload.index || state[payload.property].findIndex(( item ) => item.id === payload.value.id );
       state[payload.property][index] = payload.value;
     },
     deleteId( state, payload ){
-      let index = state[payload.property].findIndex(( item ) => item.id === payload.value.id );
+      let index = payload.index || state[payload.property].findIndex(( item ) => item.id === payload.id );
       state[payload.property].splice( index, 1 );
     }
   }

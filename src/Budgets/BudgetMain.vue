@@ -1,26 +1,27 @@
 <template>
   <div id="budget-main">
-    <budget-edit :title="editTitle" :data="editBudget" @saved="editSaved"/>
-    <budget-list :data="budgets" @edit="listEdit" @delete="listDelete"/>
+    <budget-edit v-show="showEdit" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
+    <button @click="showEdit=true" v-show="!showEdit">Add Budget</button>
+    <budget-list :data="budgets" @edit="onEdit" @delete="listDelete"/>
   </div>
 </template>
 
 <script>
 import BudgetList from './BudgetList.vue';
 import BudgetEdit from './BudgetEdit.vue';
+import mainMixin from '../mixins/main.mixin.js';
+import editMixin from '../mixins/edit.mixin.js';
+import listMixin from '../mixins/list.mixin.js';
+import socketMixin from '../mixins/socket.mixin.js';
 export default {
   name:'budget-main',
+  mixins:[
+    mainMixin,
+    listMixin( 'budget', false ),
+    editMixin( 'budget' ),
+    socketMixin( 'budget', 'budgets' )
+  ],
   components: { BudgetList, BudgetEdit },
-  props : {
-    model: { type: Object }
-  },
-  data(){
-    return {
-      budget: {},
-      isNew:true,
-      editBudget:{}
-    };
-  },
   computed:{
     editTitle(){
       return this.isNew ? 'Create Budget' : 'Edit Budget';
@@ -28,34 +29,11 @@ export default {
     budgets() {
       return this.$store.state.budgets;
     }
-  },
-  mounted(){
-    this.init( this.model );
-  },
-  methods: {
-    init( modelInstance ){
-      this.budget = modelInstance;
-    },
-    editSaved( data ){
-      this.editBudget = {};
-      let method = this.isNew ? 'post' : 'put';
-      this.budget[method]( data ).then(( response ) => {
-        if ( method === 'post' )
-          this.$store.commit( 'addToStore', { property:'budgets', value:response.body });
-        else
-          this.$store.commit( 'updateId', { property:'budgets', value:response.body });
-      });
-      this.isNew = true;
-    },
-    listEdit( budget ){
-      this.isNew = false;
-      this.editBudget = budget;
-    },
-    listDelete( data ){
-      this.budget.delete( data.id ).then(() => {
-        this.$store.commit( 'deleteId', { property:'budgets', value:data });
-      });
-    },
   }
 };
 </script>
+<style lang="scss">
+#budget-main {
+  margin-top: 50px;
+}
+</style>

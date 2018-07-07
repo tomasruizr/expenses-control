@@ -17,12 +17,14 @@ module.exports = {
     description: 'string',
     amount: 'number',
     tags: 'string',
-    budget:{
-      model:'budget'
-    },
-    account:{
-      model: 'account'
-    },
+    // budget:{
+    //   model:'budget'
+    // },
+    // account:{
+    //   model: 'account'
+    // },
+    budget:'number',
+    account:'number'
   },
 
 };

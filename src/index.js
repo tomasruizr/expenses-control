@@ -9,4 +9,5 @@ const app = new Vue({
   render: h => h( Main )
 });
 
+
 export { app, store };

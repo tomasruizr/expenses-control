@@ -1,71 +1,36 @@
 <template>
   <div id="user-main">
-    <user-edit :data="editUser" @saved="editSaved"/>
-    <user-list :data="users" @edit="listEdit" @delete="listDelete"/>
+    <user-edit v-show="showEdit" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
+    <button @click="showEdit=true" v-show="!showEdit">Add User</button>
+    <user-list :data="users" @edit="onEdit" @delete="listDelete"/>
   </div>
 </template>
 
 <script>
 import UserList from './UserList.vue';
 import UserEdit from './UserEdit.vue';
+import mainMixin from '../mixins/main.mixin.js';
+import editMixin from '../mixins/edit.mixin.js';
+import listMixin from '../mixins/list.mixin.js';
+import socketMixin from '../mixins/socket.mixin.js';
 export default {
   name:'user-main',
+  mixins:[
+    mainMixin,
+    listMixin( 'user' ),
+    editMixin( 'user' ),
+    socketMixin( 'user' )
+  ],
   components: { UserList, UserEdit },
-  props : {
-    model: { type: Object }
-  },
-  data(){
-    return {
-      user: {},
-      isNew:true,
-      users:[],
-      editUser:{}
-    };
-  },
-  mounted(){
-    this.init( this.model );
-  },
-  methods: {
-    init( modelInstance ){
-      this.user = modelInstance;// || this.isSocket ? socket : model );
-      if ( this.user.on ){
-        this.user.on( 'user', this.manageSocketEvent );
-      }
-      return this.user.get().then(( data ) => {
-        this.users = data.body;
-      });
-    },
-
-    manageSocketEvent( message ){
-      if ( message.verb === 'created' ){
-        return this.users.push( message.data );
-      } 
-      let index = this.users.findIndex(( item ) => item.id === message.id );
-      if ( message.verb === 'destroyed' )
-        this.users.splice( index,1 );
-      else if ( message.verb === 'updated' )
-        this.users.splice( index,1, message.data );
-        // this.users[index] = message.data;
-    },
-
-    editSaved( data ){
-      this.editUser = {};
-      let method = this.isNew ? 'post' : 'put';
-      this.user[method]( data ).then(( response ) => {
-        if ( method === 'post' )
-          this.users.push( response.body );
-      });
-      this.isNew = true;
-    },
-    listEdit( user ){
-      this.isNew = false;
-      this.editUser = user;
-    },
-    listDelete( data, index ){
-      this.user.delete( data.id ).then(() => {
-        this.users.splice( index, 1 );
-      });
+  computed:{
+    editTitle(){
+      return this.isNew ? 'Create User' : 'Edit User';
     },
   }
 };
 </script>
+<style lang="scss">
+#user-main {
+  margin-top: 50px;
+}
+</style>

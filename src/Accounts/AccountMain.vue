@@ -19,7 +19,7 @@ export default {
     mainMixin,
     listMixin( 'account', false ),
     editMixin( 'account' ),
-    socketMixin( 'account' )
+    socketMixin( 'account', 'accounts' )
   ],
   components: { AccountList, AccountEdit },
   computed:{

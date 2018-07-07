@@ -12,7 +12,7 @@
     "lint:watch": "npm run lint -- --watch",
     "open:src": "babel-node buildScripts/srcServer.js",
     "prestart": "babel-node buildScripts/startMessage.js",
-    "start": "npm-run-all --parallel security-check open:src start-sails lint:watch",
+    "start": "npm-run-all --parallel security-check open:src lint:watch",
     "generate-mock-data": "babel-node buildScripts/generateMockData",
     "prestart-mockapi": "npm run generate-mock-data",
     "start-sails": "node devAPI/app.js --port 3001",
