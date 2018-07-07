@@ -12,14 +12,14 @@ import AccountEdit from './AccountEdit.vue';
 import mainMixin from '../mixins/main.mixin.js';
 import editMixin from '../mixins/edit.mixin.js';
 import listMixin from '../mixins/list.mixin.js';
-// import socketMixin from '../mixins/socket.mixin.js';
+import socketMixin from '../mixins/socket.mixin.js';
 export default {
   name:'account-main',
   mixins:[
     mainMixin,
     listMixin( 'account', false ),
     editMixin( 'account' ),
-    // socketMixin( 'account' )
+    socketMixin( 'account' )
   ],
   components: { AccountList, AccountEdit },
   computed:{
