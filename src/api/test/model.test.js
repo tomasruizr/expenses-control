@@ -2,7 +2,7 @@ import { assert } from 'chai';
 import Model from '../model';
 import fetchMock from 'fetch-mock';
 import { createNew } from 'trutils';
-import { emit } from 'cluster';
+// import { emit } from 'cluster';
 
 let model;
 let params = {

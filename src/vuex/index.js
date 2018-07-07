@@ -23,7 +23,6 @@ const store = new Vuex.Store({
       state[payload.property] = Array.isArray( payload.value ) ? payload.value : [payload.value];
     },
     addToStore( state, payload ){
-      console.log( payload.property );
       if ( Array.isArray( payload.value )){
         state[payload.property] = state[payload.property].concat( payload.value );
       } else {

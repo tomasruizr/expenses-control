@@ -1,8 +1,8 @@
 <template>
   <div id="account-main">
-    <!-- <account-edit v-show="showEdit" :title="editTitle" :data="accounts" @saved="editSaved" @cancel="showEdit=false"/> -->
-    <!-- <button @click="showEdit=true" v-show="!showEdit">Add Account</button> -->
-    <!-- <account-list :data="accounts" @edit="listEdit" @delete="listDelete"/> -->
+    <account-edit v-show="showEdit" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
+    <button @click="showEdit=true" v-show="!showEdit">Add Account</button>
+    <account-list :data="accounts" @edit="onEdit" @delete="listDelete"/>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import AccountEdit from './AccountEdit.vue';
 import mainMixin from '../mixins/main.mixin.js';
 import editMixin from '../mixins/edit.mixin.js';
 import listMixin from '../mixins/list.mixin.js';
-import socketMixin from '../mixins/socket.mixin.js';
+// import socketMixin from '../mixins/socket.mixin.js';
 export default {
   name:'account-main',
   mixins:[

@@ -5,10 +5,7 @@ export default {
   data(){
     return {
       showEdit:false,
-      inNew: true
+      isNew: true
     };
-  },
-  mounted(){
-    // this.init( this.model );
   },
 };
