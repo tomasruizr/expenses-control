@@ -16,6 +16,7 @@ export default function listMixing( name , createData = true ) {
     methods:{
       onEdit( data ){
         this.isNew = false;
+        this.showEdit = true;
         this.editData = data;
       },
       editSaved( data ){
@@ -26,6 +27,7 @@ export default function listMixing( name , createData = true ) {
             this[`${name}s`].push( response.body );
         });
         this.isNew = true;
+        this.showEdit = false;
       }
     }
   };
