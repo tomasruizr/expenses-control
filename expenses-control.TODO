@@ -1,13 +1,13 @@
 expenses-control:
 Operations:
   ☐ register a User
-    ☐ CRUD
+    ✔ CRUD @done(18-07-07 20:59)
     ☐ Team
     ☐ Permisology
-  ☐ register accounts
+  ✔ register accounts @done(18-07-07 20:59)
   ☐ register a Budget
-    ☐ Set Name
-    ☐ Set Amount or Porcentage
+    ✔ Set Name @done(18-07-07 20:59)
+    ✔ Set Amount or Porcentage @done(18-07-07 20:59)
     ☐ Define is estimated by last month, current month, or other
   ☐ Register Goals
     ☐ Set Budget
@@ -16,9 +16,8 @@ Operations:
       ☐ Given I a porcentage structure, excedents, time to acomplish of goals.
         ☐ How to structure the porcentages to achieve goal
   ☐ register an operation:
-    ☐ Set Category
-    ☐ Set Tag
-    ☐ Set Descriptions
-    ☐ Set Budget
+    ✔ Set Tag @done(18-07-07 21:00)
+    ✔ Set Descriptions @done(18-07-07 21:00)
+    ✔ Set Budget @done(18-07-07 21:00)
   ☐ Register templates operation
     ☐ Set predefined things.

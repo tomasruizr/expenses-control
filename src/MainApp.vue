@@ -5,6 +5,7 @@
     <budget-main :model="budgetModel"/>
     <!-- <goal-main :model="goalModel"/> -->
     <user-main :model="userModel"/>
+    <category-main :model="categoryModel"/>
   </div>
 </template>
 
@@ -15,18 +16,20 @@ import GoalMain from './Goals/GoalMain.vue';
 import BudgetMain from './Budgets/BudgetMain.vue';
 import UserMain from './Users/UserMain.vue';
 import AccountMain from './Accounts/AccountMain.vue';
+import CategoryMain from './Categories/CategoryMain.vue';
 import socket from './Api/socket';
 import { createNew } from 'trutils';
 // import env from '../config/env.js';
 export default {
   name:'main-app',
-  components: { OperationMain, GoalMain,BudgetMain, AccountMain, UserMain },
+  components: { CategoryMain, OperationMain, GoalMain,BudgetMain, AccountMain, UserMain },
   beforeCreate(){
     this.operationModel = createNew( socket, { url:'/operation' });
     this.goalModel = createNew( socket, { url:'/goal' });
     this.budgetModel = createNew( socket, { url:'/budget' });
     this.accountModel = createNew( socket, { url:'/account' });
     this.userModel = createNew( socket, { url:'/user' });
+    this.categoryModel = createNew( socket, { url:'/category' });
     vuexLoader(
       this.$store,
       [
@@ -37,6 +40,10 @@ export default {
         {
           model:this.budgetModel,
           vuexProperty: 'budgets'
+        },
+        {
+          model:this.categoryModel,
+          vuexProperty: 'categories'
         }
       ]);
   }

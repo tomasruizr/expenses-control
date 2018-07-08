@@ -85,7 +85,28 @@ module.exports = {
         },
         required: [ 'id', 'name', 'amount', 'isPercentage' ]
       }
+    },
+    category: {
+      type: 'array',
+      minItems: 3,
+      maxItems: 5,
+      items: {
+        type: 'object',
+        properties: {
+          id: {
+            type: 'integer',
+            unique: true,
+            minimum: 1,
+            maximum: 10
+          },
+          name: {
+            type: 'string',
+            faker: 'finance.accountName'
+          }
+        },
+        required: [ 'id', 'name' ]
+      }
     }
   },
-  required: [ 'user', 'account', 'budget' ]
+  required: [ 'user', 'account', 'budget', 'category' ]
 };

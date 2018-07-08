@@ -15,7 +15,7 @@
     "start": "npm-run-all --parallel security-check open:src lint:watch",
     "generate-mock-data": "babel-node buildScripts/generateMockData",
     "prestart-mockapi": "npm run generate-mock-data",
-    "start-sails": "node devAPI/app.js --port 3001",
+    "start-sails": "nodemon devAPI/app.js --port 3001",
     "start-mockapi": "json-server --watch buildScripts/db.json --port 3001",
     "vuetest": "mocha-webpack --reporter spec --webpack-config webpack.config.test.js  \"src/**/*.vue-test.js\" -r buildScripts/testSetup.js -r jsdom-global/register --interactive false",
     "utest": "mocha-webpack --reporter spec --webpack-config webpack.config.test.js  \"src/**/*.test.js\" -r buildScripts/testSetup.js --interactive false",

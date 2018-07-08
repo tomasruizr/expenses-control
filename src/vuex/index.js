@@ -5,17 +5,21 @@ Vue.use( Vuex );
 
 const state = {
   accounts: [],
-  budgets: []
+  budgets: [],
+  categories: []
 };
 
 const store = new Vuex.Store({
   state,
   getters:{
+    getById: ( state, property ) => ( id ) => {
+      return state[property].find( item => item.id === id );
+    },
     getAccountById: ( state ) => ( id ) => {
-      return state.accounts.find( todo => todo.id === id );
+      return state.accounts.find( item => item.id === id );
     },
     getBudgetById: ( state ) => ( id ) => {
-      return state.budgets.find( todo => todo.id === id );
+      return state.budgets.find( item => item.id === id );
     }
   },
   mutations:{

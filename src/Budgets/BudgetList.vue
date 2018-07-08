@@ -10,10 +10,10 @@
         <th>Amount</th>
         <th>Is Percentage</th>
       </thead>
-      <tbody id="users">
+      <tbody id="budget">
         <tr v-for="(budget, index) in data" :key= "budget.id">
-          <td><a href="#" @click="$emit('edit', budget, index)" class="editUser">Edit</a></td>
-          <td><a href="#" @click="remove(budget, index)" class="deleteUser">Delete</a></td>
+          <td><a href="#" @click="$emit('edit', budget, index)" class="editBudget">Edit</a></td>
+          <td><a href="#" @click="remove(budget, index)" class="deleteBudget">Delete</a></td>
           <td>{{budget.id}}</td>
           <td>{{budget.name}}</td>
           <td>{{budget.amount}}</td>
@@ -45,10 +45,10 @@ export default {
 table th {
   padding: 5px
 }
-.editUser {
+.editBudget {
   color: green;
 }
-.deleteUser {
+.deleteBudget {
   color:lightsalmon;
 }
 </style>
