@@ -1,11 +1,11 @@
 <template>
   <div id="main-app">
+    <category-main :model="categoryModel"/>
     <operation-main :model="operationModel"/>
     <account-main :model="accountModel"/>
     <budget-main :model="budgetModel"/>
     <!-- <goal-main :model="goalModel"/> -->
     <user-main :model="userModel"/>
-    <category-main :model="categoryModel"/>
   </div>
 </template>
 

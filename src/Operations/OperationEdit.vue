@@ -2,7 +2,7 @@
 <div id="operations-edit">
   <form @submit="submit">
     <h1>New Operations</h1>
-    <input type="text" v-model="data.kind" placeholder="Kind">
+    <label><input type="checkbox" v-model="data.isDeposit" placeholder="Is Deposit">Is Deposit</label>
     <input type="text" v-model="data.name" placeholder="Name">
     <input type="text" v-model="data.amount" placeholder="Amount">
     <input type="text" v-model="data.description" placeholder="Description">
@@ -12,7 +12,9 @@
     <select name="account" id="account" v-model="data.account">
       <option v-for="(account) in accounts" :key="account.id" :value="account.id">{{account.name}}</option>
     </select>
-    <input type="text" v-model="data.tags" placeholder="Tags">
+    <select name="category" id="category" v-model="data.category">
+      <option v-for="(category) in categories" :key="category.id" :value="category.id">{{category.name}}</option>
+    </select>
     <input type="submit" :value="btnCaption">
     <a @click="$emit('cancel')" href="#">Cancel</a>
   </form>
@@ -24,6 +26,7 @@ export default {
     data: Object,
     budgets: Array,
     accounts: Array,
+    categories: Array,
     btnCaption: {
       type: String,
       default: 'Save'

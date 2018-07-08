@@ -12,13 +12,13 @@ module.exports = {
       unique: true,
       autoIncrement: true
     },
-    kind: 'number',
     name: 'string',
     description: 'string',
     amount: 'number',
     category: 'number',
     budget:'number',
-    account:'number'
+    account:'number',
+    isDeposit: 'boolean'
   },
 
 };

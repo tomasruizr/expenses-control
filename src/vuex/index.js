@@ -12,14 +12,8 @@ const state = {
 const store = new Vuex.Store({
   state,
   getters:{
-    getById: ( state, property ) => ( id ) => {
+    getById: ( state ) => ( property, id ) => {
       return state[property].find( item => item.id === id );
-    },
-    getAccountById: ( state ) => ( id ) => {
-      return state.accounts.find( item => item.id === id );
-    },
-    getBudgetById: ( state ) => ( id ) => {
-      return state.budgets.find( item => item.id === id );
     }
   },
   mutations:{
@@ -35,7 +29,7 @@ const store = new Vuex.Store({
     },
     updateId( state, payload ){
       let index = payload.index || state[payload.property].findIndex(( item ) => item.id === payload.value.id );
-      state[payload.property][index] = payload.value;
+      Vue.set( state[payload.property], index, payload.value );
     },
     deleteId( state, payload ){
       let index = payload.index || state[payload.property].findIndex(( item ) => item.id === payload.id );

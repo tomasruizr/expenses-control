@@ -11,7 +11,7 @@
       <tbody id="categories">
         <tr v-for="(category, index) in data" :key= "category.id">
           <td><a href="#" @click="$emit('edit', category, index)" class="editCategory">Edit</a></td>
-          <td><a href="#" @click="remove(category, index)" class="deleteCategory">Delete</a></td>
+          <td><a href="#" @click="$emit( 'delete', category, index )" class="deleteCategory">Delete</a></td>
           <td>{{category.id}}</td>
           <td>{{category.name}}</td>
         </tr>

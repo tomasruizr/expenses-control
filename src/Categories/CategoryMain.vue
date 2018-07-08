@@ -17,8 +17,8 @@ export default {
   name:'category-main',
   mixins:[
     mainMixin,
-    listMixin( 'category', false ),
-    editMixin( 'category' ),
+    listMixin( 'categorie', false ),
+    editMixin( 'categorie' ),
     socketMixin( 'category', 'categories' )
   ],
   components: { CategoryList, CategoryEdit },

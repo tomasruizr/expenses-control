@@ -1,6 +1,6 @@
 <template>
   <div id="operation-main">
-    <operation-edit v-show="showEdit" :budgets="budgets" :accounts="accounts" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
+    <operation-edit v-show="showEdit" :budgets="budgets" :accounts="accounts" :categories="categories" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
     <button @click="showEdit=true" v-show="!showEdit">Add Operation</button>
     <operation-list :data="operations" @edit="onEdit" @delete="listDelete"/>
   </div>
@@ -31,6 +31,9 @@ export default {
     },
     accounts() {
       return this.$store.state.accounts;
+    },
+    categories() {
+      return this.$store.state.categories;
     }
   }
 };
