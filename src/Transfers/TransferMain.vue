@@ -41,6 +41,10 @@ export default {
     },
     submit( event ){
       event.preventDefault();
+      this.model.transfer( this.data ).then(() => {
+        console.log( 'listo' );
+        this.$emit( 'saved', this.data );
+      });
       this.showEdit = false;
       this.data = {};
     }
