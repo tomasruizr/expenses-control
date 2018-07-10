@@ -1,7 +1,8 @@
 <template>
   <div id="user-main">
+    <h1>Users</h1>
+    <button class="button is-primary" @click="showEdit=true" v-show="!showEdit">Add User</button>
     <user-edit v-show="showEdit" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
-    <button @click="showEdit=true" v-show="!showEdit">Add User</button>
     <user-list :data="users" @edit="onEdit" @delete="listDelete"/>
   </div>
 </template>
@@ -29,8 +30,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-#user-main {
-  margin-top: 50px;
-}
-</style>

@@ -12,7 +12,7 @@ module.exports = {
       unique: true,
       autoIncrement: true
     },
-    name: 'string',
+    // name: 'string',
     description: 'string',
     amount: 'number',
     category: 'number',

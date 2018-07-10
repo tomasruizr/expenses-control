@@ -1,6 +1,5 @@
 <template>
   <div id="budget-list">
-    <h1>Budgets</h1>
     <table>
       <thead>
         <th>&nbsp;</th>
@@ -12,8 +11,8 @@
       </thead>
       <tbody id="budget">
         <tr v-for="(budget, index) in data" :key= "budget.id">
-          <td><a href="#" @click="$emit('edit', budget, index)" class="editBudget">Edit</a></td>
-          <td><a href="#" @click="remove(budget, index)" class="deleteBudget">Delete</a></td>
+          <td><a href="#" @click="$emit('edit', budget, index)" class="list-edit">Edit</a></td>
+          <td><a href="#" @click="remove(budget, index)" class="list-delete">Delete</a></td>
           <td>{{budget.id}}</td>
           <td>{{budget.name}}</td>
           <td>{{budget.amount}}</td>
@@ -40,17 +39,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-table th {
-  padding: 5px
-}
-.editBudget {
-  color: green;
-}
-.deleteBudget {
-  color:lightsalmon;
-}
-</style>
-
-

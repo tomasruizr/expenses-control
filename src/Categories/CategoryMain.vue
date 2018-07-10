@@ -1,7 +1,8 @@
 <template>
   <div id="category-main">
+    <h1>Categories</h1>
+    <button class="button is-primary" @click="showEdit=true" v-show="!showEdit">Add Category</button>
     <category-edit v-show="showEdit" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
-    <button @click="showEdit=true" v-show="!showEdit">Add Category</button>
     <category-list :data="categories" @edit="onEdit" @delete="listDelete"/>
   </div>
 </template>
@@ -32,8 +33,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-#category-main {
-  margin-top: 50px;
-}
-</style>

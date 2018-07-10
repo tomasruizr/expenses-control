@@ -1,6 +1,5 @@
 <template>
   <div id="account-list">
-    <h1>Accounts</h1>
     <table>
       <thead>
         <th>&nbsp;</th>
@@ -11,8 +10,8 @@
       </thead>
       <tbody id="users">
         <tr v-for="(account, index) in data" :key= "account.id">
-          <td><a href="#" @click="$emit('edit', account, index)" class="editUser">Edit</a></td>
-          <td><a href="#" @click="remove(account, index)" class="deleteUser">Delete</a></td>
+          <td><a href="#" @click="$emit('edit', account, index)" class="list-edit">Edit</a></td>
+          <td><a href="#" @click="remove(account, index)" class="list-delete">Delete</a></td>
           <td>{{account.id}}</td>
           <td>{{account.name}}</td>
           <td>{{account.balance}}</td>
@@ -38,17 +37,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-table th {
-  padding: 5px
-}
-.editUser {
-  color: green;
-}
-.deleteUser {
-  color:lightsalmon;
-}
-</style>
-
-

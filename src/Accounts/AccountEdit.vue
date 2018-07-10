@@ -1,11 +1,11 @@
 <template>
-<div id="account-edit">
+<div id="account-edit" class="column is-5">
   <form @submit="submit">
     <h1>{{formTitle}}</h1>
-    <input type="text" v-model="data.name" placeholder="Name">
-    <input type="text" v-model="data.balance" placeholder="Balance">
-    <input type="submit" :value="btnCaption">
-    <a @click="$emit('cancel')" href="#">Cancel</a>
+    <input class="input" type="text" v-model="data.name" placeholder="Name">
+    <input class="input" type="text" v-model="data.balance" placeholder="Balance">
+    <input class="button is-primary is-outlined" type="submit" :value="btnCaption">
+    <a class="button is-link is-outlined" @click="$emit('cancel')" href="#">Cancel</a>
   </form>
 </div>
 </template>

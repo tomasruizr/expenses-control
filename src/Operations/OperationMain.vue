@@ -1,7 +1,19 @@
 <template>
   <div id="operation-main">
-    <operation-edit v-show="showEdit" :budgets="budgets" :accounts="accounts" :categories="categories" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
-    <button @click="showEdit=true" v-show="!showEdit">Add Operation</button>
+    <h1>Operations</h1>
+    <button class="button is-primary" @click="showEdit=true" v-show="!showEdit">Add Operation</button>
+    <operation-edit 
+      :defaultAccount="defaultAccount" 
+      :defaultBudget="defaultBudget" 
+      :defaultCategory="defaultCategory" 
+      :budgets="budgets" 
+      :accounts="accounts" 
+      :categories="categories" 
+      :title="editTitle" 
+      :data="editData" 
+      v-show="showEdit" 
+      @saved="editSaved" 
+      @cancel="showEdit=false"/>
     <operation-list :data="operations" @edit="onEdit" @delete="listDelete"/>
   </div>
 </template>
@@ -14,7 +26,12 @@ import editMixin from '../mixins/edit.mixin.js';
 import listMixin from '../mixins/list.mixin.js';
 import socketMixin from '../mixins/socket.mixin.js';
 export default {
-  name:'operation-main',
+  name: 'operation-main',
+  props: {
+    defaultAccount: Number,
+    defaultBudget: Number,
+    defaultCategory: Number,
+  },
   mixins:[
     mainMixin,
     listMixin( 'operation' ),
@@ -38,8 +55,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-#operation-main {
-  margin-top: 50px;
-}
-</style>

@@ -25,9 +25,11 @@ export default function socketMixing( name, vuexProp ) {
         } 
         if ( message.verb === 'destroyed' )
           this.$store.commit( 'deleteId', { property:vuexProp, value : message.id });
-        else if ( message.verb === 'updated' )
-          this.$store.commit( 'updateId', { property:vuexProp, value : message.data });
-        
+        else if ( message.verb === 'updated' ){
+          let actual = Object.assign({}, message.previous, message.data );
+          console.log( actual );
+          this.$store.commit( 'updateId', { property:vuexProp, value : actual });
+        }
         this.init();
       }
     },

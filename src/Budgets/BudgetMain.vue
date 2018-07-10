@@ -1,7 +1,8 @@
 <template>
   <div id="budget-main">
+    <h1>Budgets</h1>
+    <button class="button is-primary" @click="showEdit=true" v-show="!showEdit">Add Budget</button>
     <budget-edit v-show="showEdit" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
-    <button @click="showEdit=true" v-show="!showEdit">Add Budget</button>
     <budget-list :data="budgets" @edit="onEdit" @delete="listDelete"/>
   </div>
 </template>
@@ -32,8 +33,3 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-#budget-main {
-  margin-top: 50px;
-}
-</style>

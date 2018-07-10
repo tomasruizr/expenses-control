@@ -14,8 +14,8 @@
       </thead>
       <tbody id="goals">
         <tr v-for="(goal, index) in data" :key= "goal.id">
-          <td><a href="#" @click="$emit('edit', goal, index)" class="editGoal">Edit</a></td>
-          <td><a href="#" @click="remove(goal, index)" class="deleteGoal">Delete</a></td>
+          <td><a href="#" @click="$emit('edit', goal, index)" class="list-edit">Edit</a></td>
+          <td><a href="#" @click="remove(goal, index)" class="list-delete">Delete</a></td>
           <td>{{goal.id}}</td>
           <td>{{goal.name}}</td>
           <td>{{goal.budget}}</td>
@@ -44,17 +44,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-table th {
-  padding: 5px
-}
-.editGoal {
-  color: green;
-}
-.deleteGoal {
-  color:lightsalmon;
-}
-</style>
-
-

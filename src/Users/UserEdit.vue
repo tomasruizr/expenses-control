@@ -1,11 +1,12 @@
 <template>
-<div id="user-edit">
+<div id="user-edit" class="column is-5">
   <form @submit="submit">
     <h1>New user</h1>
-    <input type="text" v-model="data.firstName" placeholder="First Name">
-    <input type="text" v-model="data.lastName" placeholder="Last Name">
-    <input type="text" v-model="data.email" placeholder="email">
-    <input type="submit" :value="btnCaption">
+    <input class="input" type="text" v-model="data.firstName" placeholder="First Name">
+    <input class="input" type="text" v-model="data.lastName" placeholder="Last Name">
+    <input class="input" type="text" v-model="data.email" placeholder="email">
+    <input class="button is-primary is-outlined" type="submit" :value="btnCaption">
+    <a class="button is-link is-outlined" @click="$emit('cancel')" href="#">Cancel</a>
   </form>
 </div>
 </template>

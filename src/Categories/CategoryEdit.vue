@@ -1,10 +1,10 @@
 <template>
-<div id="category-edit">
+<div id="category-edit" class="column is-5">
   <form @submit="submit">
     <h1>{{formTitle}}</h1>
-    <input type="text" v-model="data.name" placeholder="Name">
-    <a @click="$emit('cancel')" href="#">Cancel</a>
-    <input type="submit" :value="btnCaption">
+    <input class="input" type="text" v-model="data.name" placeholder="Name">
+    <input class="button is-primary is-outlined" type="submit" :value="btnCaption">
+    <a class="button is-link is-outlined" @click="$emit('cancel')" href="#">Cancel</a>
   </form>
 </div>
 </template>
