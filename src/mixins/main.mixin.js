@@ -8,4 +8,10 @@ export default {
       isNew: true
     };
   },
+  methods:{
+    onError( err ){
+      this.$emit( 'error', err );
+      alert( err );
+    }
+  }
 };

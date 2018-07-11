@@ -61,9 +61,13 @@ socket.prototype.disconnect = function() {
     }else {
       options.data = data; //stringify( data ) || undefined;
     }
-    return new Promise(( resolve ) => {
-      self.io.request( options, ( body, JWR ) => {
-        resolve( onSuccess( JWR ));
+    return new Promise(( resolve, reject ) => {
+      self.io.request( options, ( body, response ) => {
+        if ( response.statusCode >= 200 && response.statusCode < 300 ) {
+          return resolve({ body : response.body, status: response.statusCode });
+        } else {
+          return reject( response.body.code );
+        }
       });
     });
   };
@@ -85,37 +89,27 @@ socket.prototype.disconnect = function() {
     options.url += `/${ data.id}`;
     options.method = method.toUpperCase();
     options.data = data;
-    return new Promise(( resolve ) => {
-      self.io.request( options, ( body, JWR ) => {
-        resolve( onSuccess( JWR ));
+    return new Promise(( resolve, reject ) => {
+      self.io.request( options, ( body, response ) => {
+        if ( response.statusCode >= 200 && response.statusCode < 300 ) {
+          return resolve({ body : response.body, status: response.statusCode });
+        } else {
+          return reject( response.body.code );
+        }
       });
     });
   };
 });
 
-function onSuccess( response ) {
-  if ( response.statusCode >= 200 && response.statusCode < 300 ) {
-    return { body : response.body, status: response.statusCode };
-  } else {
-    var error = new Error( response.error );
-    error.status = response.statusCode;
-    throw error;
-  }
-}
-
-function onError( error ) {
-  throw error;
-}
-
 export default socket;
 
-//*******************************************
-// Expose for testing
-//*******************************************
-if ( process.env.NODE_ENV === 'test' ) {
-  global.moduleTests = global.moduleTests || {};
-  global.moduleTests['modeljs'] = {
-    onSuccess,
-    onError
-  };
-}
+// //*******************************************
+// // Expose for testing
+// //*******************************************
+// if ( process.env.NODE_ENV === 'test' ) {
+//   global.moduleTests = global.moduleTests || {};
+//   global.moduleTests['modeljs'] = {
+//     onSuccess,
+//     onError
+//   };
+// }

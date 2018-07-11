@@ -6,7 +6,7 @@
     <!-- <goal-main :model="goalModel"/> -->
     <budget-main :model="budgetModel"/>
     <category-main :model="categoryModel"/>
-    <user-main :model="userModel"/>
+    <!-- <user-main :model="userModel"/> -->
   </div>
 </template>
 <script>

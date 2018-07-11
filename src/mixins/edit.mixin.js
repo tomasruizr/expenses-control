@@ -25,7 +25,7 @@ export default function listMixing( name , createData = true ) {
         this.model[method]( data ).then(( response ) => {
           if ( method === 'post' )
             this[`${name}s`].push( response.body );
-        });
+        }).catch( this.onError );
         this.isNew = true;
         this.showEdit = false;
       }

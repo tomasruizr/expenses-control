@@ -27,6 +27,7 @@ export default function socketMixing( name, vuexProp ) {
           this.$store.commit( 'deleteId', { property:vuexProp, value : message.id });
         else if ( message.verb === 'updated' ){
           let actual = Object.assign({}, message.previous, message.data );
+          debugger;
           console.log( actual );
           this.$store.commit( 'updateId', { property:vuexProp, value : actual });
         }
