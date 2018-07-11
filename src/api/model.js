@@ -3,7 +3,7 @@
  * Exposes methods 'get', 'post', 'put', 'patch', 'delete' based on fetch.
  * In case you want to implement with some other library like axios, make the change here.
  */
-import 'whatwg-fetch';
+import fetch from './pfetch';
 import getBaseUrl from './baseUrl';
 import { stringify } from 'querystring';
 

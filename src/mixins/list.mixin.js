@@ -22,7 +22,7 @@ export default function listMixing( name , manageData = true ) {
           this.model.get().then(( data ) => {
             this[`${name}s`] = data.body;
           });
-        } 
+        }
       },
       listDelete( data, index ){
         this.model.delete( data.id ).then(() => {

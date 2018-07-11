@@ -8,7 +8,7 @@
 const socketIO = require( 'socket.io-client' );
 const sailsIO = require( 'sails.io.js' );
 
-import getBaseUrl from './baseUrl';
+// import getBaseUrl from './baseUrl';
 // import { stringify } from 'querystring';
 let io;
 if ( !io || !socketIO.sails ){
@@ -22,7 +22,7 @@ let socket = function( options = {}){
   io.sails.useCORSRouteToGetCookie = options.useCORSRouteToGetCookie === false ? false : true;
   io.sails.reconnection = options.reconnection || false;
   io.sails.autoConnect = options.autoConnect || false;
-  let baseUrl = options.baseUrl || getBaseUrl();
+  let baseUrl = options.baseUrl;
   this.io = ios[baseUrl] = ios[baseUrl] || Object.assign( io.sails.connect( baseUrl ));
   delete options.baseUrl;
   this.options = Object.assign({},{

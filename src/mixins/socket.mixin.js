@@ -13,22 +13,22 @@ export default function socketMixing( name, vuexProp ) {
         if ( message.verb === 'created' ){
           return this[`${name}s`].push( message.data );
         }
-        let index = this[`${name}s`].findIndex(( item ) => item.id === message.id );
+        let index = this[`${name}s`].findIndex(( item ) => item.id === message.data.id );
         if ( message.verb === 'destroyed' )
           this[`${name}s`].splice( index,1 );
-        else if ( message.verb === 'updated' )
-          this[`${name}s`].splice( index,1, message.data );
+        else if ( message.verb === 'updated' ){
+          let actual = Object.assign({}, message.previous, message.data );
+          this[`${name}s`].splice( index,1, actual );
+        }
       },
       manageSocketEventVuex( message ){
         if ( message.verb === 'created' ){
           return this.$store.commit( 'addToStore', { property:vuexProp, value : message.data });
-        } 
+        }
         if ( message.verb === 'destroyed' )
           this.$store.commit( 'deleteId', { property:vuexProp, value : message.id });
         else if ( message.verb === 'updated' ){
           let actual = Object.assign({}, message.previous, message.data );
-          debugger;
-          console.log( actual );
           this.$store.commit( 'updateId', { property:vuexProp, value : actual });
         }
         this.init();

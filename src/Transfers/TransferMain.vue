@@ -21,10 +21,15 @@
   </div>
 </template>
 <script>
+
 import mainMixin from '../mixins/main.mixin.js';
 export default {
   name: 'transfer-main',
   mixins: [mainMixin],
+  props:{
+    baseUrl: String,
+    http: Function
+  },
   computed: {
     accounts() {
       return this.$store.state.accounts;
@@ -41,8 +46,7 @@ export default {
     },
     submit( event ){
       event.preventDefault();
-      this.model.transfer( this.data ).then(() => {
-        console.log( 'listo' );
+      this.http( `${this.baseUrl}/makeTransfer`, { method: 'POST', body: this.data }).then(() => {
         this.$emit( 'saved', this.data );
       });
       this.showEdit = false;
