@@ -3,7 +3,7 @@
     <table>
       <thead>
         <th>&nbsp;</th>
-        <th>&nbsp;</th>
+        <!-- <th>&nbsp;</th> -->
         <th>Id</th>
         <th>Name</th>
         <th>Balance</th>
@@ -11,7 +11,7 @@
       <tbody id="users">
         <tr v-for="(account, index) in data" :key= "account.id">
           <td><a href="#" @click="$emit('edit', account, index)" class="list-edit">Edit</a></td>
-          <td><a href="#" @click="remove(account, index)" class="list-delete">Delete</a></td>
+          <!-- <td><a href="#" @click="remove(account, index)" class="list-delete">Delete</a></td> -->
           <td>{{account.id}}</td>
           <td>{{account.name}}</td>
           <td>{{account.balance}}</td>

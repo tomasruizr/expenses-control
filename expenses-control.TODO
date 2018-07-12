@@ -21,3 +21,14 @@ Operations:
     ✔ Set Budget @done(18-07-07 21:00)
   ☐ Register templates operation
     ☐ Set predefined things.
+
+    Pendientes MVP:
+      ☐ Reordenar los dropdowns de operation
+      ☐ Si es un Income no debe tener ni budget ni categoría
+      ☐ Separar las categorías para incomes y para outcomes
+      ☐ Poner nombre a los dropdowns
+      ☐ Crear el boton de deposito
+      ☐ Revisar la transferencia
+      ☐ Revisar la fecha inicial
+      ☐ transferencias entre presupuestos
+      ☐ ingresos a excedente

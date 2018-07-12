@@ -4,7 +4,7 @@
     <h1>{{formTitle}}</h1>
     <input class="input" type="text" v-model="data.name" placeholder="Name">
     <input class="input" type="text" v-model="data.amount" placeholder="Amount">
-    <label class="checkbox"><input type="checkbox" v-model="data.isPercentage" placeholder="Is Percentage">Is percentage</label>
+    <input class="input" type="text" v-model="data.balance" placeholder="Balance">
     <input class="button is-primary is-outlined" type="submit" :value="btnCaption">
     <a class="button is-link is-outlined" @click="$emit('cancel')" href="#">Cancel</a>
   </form>

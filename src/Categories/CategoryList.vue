@@ -3,14 +3,14 @@
     <table>
       <thead>
         <th>&nbsp;</th>
-        <th>&nbsp;</th>
+        <!-- <th>&nbsp;</th> -->
         <th>Id</th>
         <th>Name</th>
       </thead>
       <tbody id="categories">
         <tr v-for="(category, index) in data" :key= "category.id">
           <td><a href="#" @click="$emit('edit', category, index)" class="list-edit">Edit</a></td>
-          <td><a href="#" @click="$emit( 'delete', category, index )" class="list-delete">Delete</a></td>
+          <!-- <td><a href="#" @click="$emit( 'delete', category, index )" class="list-delete">Delete</a></td> -->
           <td>{{category.id}}</td>
           <td>{{category.name}}</td>
         </tr>

@@ -3,20 +3,20 @@
     <table>
       <thead>
         <th>&nbsp;</th>
-        <th>&nbsp;</th>
+        <!-- <th>&nbsp;</th> -->
         <th>Id</th>
         <th>Name</th>
         <th>Amount</th>
-        <th>Is Percentage</th>
+        <th>Balance</th>
       </thead>
       <tbody id="budget">
         <tr v-for="(budget, index) in data" :key= "budget.id">
           <td><a href="#" @click="$emit('edit', budget, index)" class="list-edit">Edit</a></td>
-          <td><a href="#" @click="remove(budget, index)" class="list-delete">Delete</a></td>
+          <!-- <td><a href="#" @click="remove(budget, index)" class="list-delete">Delete</a></td> -->
           <td>{{budget.id}}</td>
           <td>{{budget.name}}</td>
           <td>{{budget.amount}}</td>
-          <td>{{budget.isPercentage}}</td>
+          <td>{{budget.balance}}</td>
         </tr>
       </tbody>
     </table>
