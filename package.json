@@ -35,10 +35,12 @@
   },
   "dependencies": {
     "bulma": "^0.7.1",
+    "moment": "^2.22.2",
     "sails.io.js": "^1.2.1",
     "socket.io-client": "^2.1.1",
     "trutils": "github:tomasruizr/trutils",
     "vue": "^2.5.16",
+    "vue-datepicker-local": "^1.0.14",
     "vuex": "^3.0.1",
     "whatwg-fetch": "2.0.4"
   },

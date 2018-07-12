@@ -1,6 +1,7 @@
 import 'whatwg-fetch';
-
-export default function pfetch() {
-  return fetch( ...arguments );
+import env from '../../config/env.js';
+export default function pfetch( input, options ) {
+  options = Object.assign ({}, env.defaultHttpOptions, options );
+  return fetch( input, options );
 }
 

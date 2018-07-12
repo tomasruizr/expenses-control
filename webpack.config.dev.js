@@ -30,7 +30,8 @@ export default {
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       inject: true
-    })
+    }),
+    // new webpack.ContextReplacementPlugin( /\.\/locale$/, null, false, /js$/ )
   ],
   module: {
     rules: [

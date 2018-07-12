@@ -46,7 +46,7 @@ export default {
     },
     submit( event ){
       event.preventDefault();
-      this.http( `${this.baseUrl}/makeTransfer`, { method: 'POST', body: this.data }).then(() => {
+      this.http( `${this.baseUrl}/operation/makeTransfer`, { method: 'POST', body: JSON.stringify( this.data ) }).then(() => {
         this.$emit( 'saved', this.data );
       });
       this.showEdit = false;
