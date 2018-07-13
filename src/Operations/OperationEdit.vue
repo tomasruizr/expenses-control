@@ -16,13 +16,13 @@
     Budget
     <div class="select">
       <select name="budget" id="budget" v-model="data.budget">
-        <option v-for="(budget) in budgets" :key="budget.id" :value="budget.id">{{budget.name}}</option>
+        <option v-for="(budget) in buds" :key="budget.id" :value="budget.id">{{budget.name}}</option>
       </select>
     </div>
     Category
     <div class="select">
       <select name="category" id="category" v-model="data.category">
-        <option v-for="(category) in categories" :key="category.id" :value="category.id">{{category.name}}</option>
+        <option v-for="(category) in cats" :key="category.id" :value="category.id">{{category.name}}</option>
       </select>
     </div>
     <input class="button is-primary is-outlined" type="submit" :value="btnCaption">
@@ -32,7 +32,9 @@
 </template>
 <script>
 import VueDatepickerLocal from 'vue-datepicker-local';
+import editViewMixin from '../mixins/edit.view.mixin.js';
 export default {
+  mixins:[editViewMixin],
   components:{
     VueDatepickerLocal
   },
@@ -53,9 +55,7 @@ export default {
     };
   },
   props:{
-    defaultAccount:Number,
-    defaultBudget:Number,
-    defaultCategory:Number,
+    options: Object,
     data: Object,
     budgets: Array,
     accounts: Array,
@@ -65,20 +65,35 @@ export default {
       default: 'Save'
     }
   },
+  computed:{
+    buds(){
+      if ( this.data.isDeposit ){
+        let eBud = this.options.exceedentBudget;
+        return [this.budgets.find(( item ) => {
+          return item.id === eBud;
+        })]; 
+      }
+      return this.budgets;
+    },
+    cats(){
+      if ( this.data.isDeposit ){
+        return this.categories.filter(( item ) => {
+          return item.isDeposit;
+        }); 
+      } else {
+        return this.categories.filter(( item ) => {
+          return !item.isDeposit;
+        }); 
+      }
+    },
+  },
   mounted(){
     if ( !this.data || ( this.data && !this.data.id )){
       this.data.date = new Date();
       this.data = this.data || {};
-      this.data.account = this.defaultAccount;
-      this.data.budget = this.defaultBudget;
-      this.data.category = this.defaultCategory;
-    }
-  },
-  methods:{
-    submit( event ){
-      event.preventDefault();
-      let data = Object.assign({}, this.data );
-      this.$emit( 'saved', this.data );
+      this.data.account = this.options.defaultAccount;
+      this.data.budget = this.options.defaultBudget;
+      this.data.category = this.options.defaultCategory;
     }
   }
 };

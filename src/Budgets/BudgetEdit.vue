@@ -11,7 +11,9 @@
 </div>
 </template>
 <script>
+import editViewMixin from '../mixins/edit.view.mixin.js';
 export default {
+  mixins:[editViewMixin],
   props:{
     data: Object,
     btnCaption: {
@@ -21,12 +23,6 @@ export default {
     formTitle: {
       type: String,
       default: 'New Budget'
-    }
-  },
-  methods:{
-    submit( event ){
-      event.preventDefault();
-      this.$emit( 'saved', this.data );
     }
   }
 };

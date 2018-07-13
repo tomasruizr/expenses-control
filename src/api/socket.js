@@ -66,7 +66,7 @@ socket.prototype.disconnect = function() {
         if ( response.statusCode >= 200 && response.statusCode < 300 ) {
           return resolve({ body : response.body, status: response.statusCode });
         } else {
-          return reject( response.body.code );
+          return reject( response.body );
         }
       });
     });
@@ -94,7 +94,7 @@ socket.prototype.disconnect = function() {
         if ( response.statusCode >= 200 && response.statusCode < 300 ) {
           return resolve({ body : response.body, status: response.statusCode });
         } else {
-          return reject( response.body.code );
+          return reject( response.body );
         }
       });
     });

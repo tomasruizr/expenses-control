@@ -1,17 +1,15 @@
 <template>
   <div id="main-app" class="content">
-    <transfer-main :base-url="baseUrl" :http="http"/>
-    <operation-main :model="operationModel"/>
-    <account-main :model="accountModel"/>
+    <operation-main :model="operationModel" :options="userOptions"/>
+    <account-main :model="accountModel" :http="http" :base-url="baseUrl"/>
+    <budget-main :model="budgetModel" :http="http" :base-url="baseUrl"/>
     <!-- <goal-main :model="goalModel"/> -->
-    <budget-main :model="budgetModel"/>
     <category-main :model="categoryModel"/>
     <!-- <user-main :model="userModel"/> -->
   </div>
 </template>
 <script>
 import vuexLoader from './vuex/vuexLoader';
-import TransferMain from './Transfers/TransferMain.vue';
 import OperationMain from './Operations/OperationMain.vue';
 import GoalMain from './Goals/GoalMain.vue';
 import BudgetMain from './Budgets/BudgetMain.vue';
@@ -22,14 +20,15 @@ import socket from './Api/socket';
 import http from './Api/pfetch';
 import { createNew } from 'trutils';
 import getBaseUrl from './api/baseUrl';
-import env from '../config/env.js';
+import options from '../config/userOptions.js';
 export default {
   name:'main-app',
-  components: { TransferMain, CategoryMain, OperationMain, GoalMain,BudgetMain, AccountMain, UserMain },
+  components: { CategoryMain, OperationMain, GoalMain,BudgetMain, AccountMain, UserMain },
   data(){
     return {
       http,
-      baseUrl: getBaseUrl()
+      baseUrl: getBaseUrl(),
+      userOptions: options
     };
   },
   created(){

@@ -23,12 +23,19 @@ Operations:
     ☐ Set predefined things.
 
     Pendientes MVP:
-      ☐ Reordenar los dropdowns de operation
-      ☐ Si es un Income no debe tener ni budget ni categoría
-      ☐ Separar las categorías para incomes y para outcomes
-      ☐ Poner nombre a los dropdowns
-      ☐ Crear el boton de deposito
+      ✔ Reordenar los dropdowns de operation @done(18-07-12 10:52)
+      ✔ Poner nombre a los dropdowns @done(18-07-12 10:52)
+      ✔ Si es un Income no debe tener ni budget ni categoría @done(18-07-12 11:16)
+      ✔ Crear el boton de deposito @done(18-07-12 12:44)
+      ✔ Separar las categorías para incomes y para outcomes @done(18-07-12 17:25)
+      ✔ Revisar la fecha inicial @done(18-07-12 17:25)
+      ✔ ingresos solo pueden hacer budget a excedente @done(18-07-12 17:25)
+      ✔ Poner un check en la operacion de deposito para exedente @done(18-07-12 17:26)
       ☐ Revisar la transferencia
-      ☐ Revisar la fecha inicial
       ☐ transferencias entre presupuestos
-      ☐ ingresos a excedente
+      ☐ hacer un helper para deposito y otro para extraccion
+      ☐ hacer helper de transferencia de accout y de budget
+      ☐ Error descriptivo con los insuffcient Funds
+      ☐ Desarrollar un hitórico de todas las acciones navegables y rehacers
+      ☐ Arreglar los mixins de vue que estan super mezclados
+      ☐ Delete transfer no actualiza destination account

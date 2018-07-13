@@ -2,7 +2,7 @@
   <div id="category-main">
     <h1>Categories</h1>
     <button class="button is-primary" @click="showEdit=true" v-show="!showEdit">Add Category</button>
-    <category-edit v-show="showEdit" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
+    <category-edit v-show="showEdit" :index="editIndex" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
     <category-list :data="categories" @edit="onEdit" @delete="listDelete"/>
   </div>
 </template>

@@ -1,17 +1,17 @@
 <template>
-  <div id="transfer-main">
-    <a class="button is-link is-outlined" href="#" @click='showTransfer'>Make a transfer</a>
-    <form @submit="submit" id="transfer-detail" v-show="showEdit" class="column is-5">
+  <div>
+    <!-- <a class="button is-link is-outlined" href="#" @click='showTransfer'>Make a transfer</a> -->
+    <form @submit="submit" id="transfer-detail" class="column is-5">
       Origin:
       <div class="select">
         <select name="origin" id="origin" v-model="data.origin">
-          <option v-for="(account) in accounts" :key="account.id" :value="account.id">{{account.name}}</option>
+          <option v-for="(item) in items" :key="item.id" :value="item.id">{{item.name}}</option>
         </select>
       </div>
       Destination:
       <div class="select">
         <select name="destination" id="destination" v-model="data.destination">
-          <option v-for="(account) in accounts" :key="account.id" :value="account.id">{{account.name}}</option>
+          <option v-for="(item) in items" :key="item.id" :value="item.id">{{item.name}}</option>
         </select>
       </div>
       Amount:
@@ -24,15 +24,16 @@
 
 import mainMixin from '../mixins/main.mixin.js';
 export default {
-  name: 'transfer-main',
+  name: 'transfer-edit',
   mixins: [mainMixin],
   props:{
     baseUrl: String,
-    http: Function
+    http: Function,
+    type: String
   },
   computed: {
-    accounts() {
-      return this.$store.state.accounts;
+    items() {
+      return this.$store.state[`${this.type}s`];
     },
   },
   data(){
@@ -41,12 +42,9 @@ export default {
     };
   },
   methods: {
-    showTransfer(){
-      this.showEdit = !this.showEdit;
-    },
     submit( event ){
       event.preventDefault();
-      this.http( `${this.baseUrl}/operation/makeTransfer`, { method: 'POST', body: JSON.stringify( this.data ) }).then(() => {
+      this.http( `${this.baseUrl}/${this.type}/makeTransfer`, { method: 'POST', body: JSON.stringify( this.data ) }).then(() => {
         this.$emit( 'saved', this.data );
       });
       this.showEdit = false;

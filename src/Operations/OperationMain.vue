@@ -1,19 +1,19 @@
 <template>
   <div id="operation-main">
     <h1>Operations</h1>
-    <button class="button is-primary" @click="showEdit=true" v-show="!showEdit">Add Operation</button>
+    <button class="button is-primary" @click="showEditComponent(false)" v-show="!showEdit">Add Expense</button>
+    <button class="button is-info" @click="showEditComponent(true)" v-show="!showEdit">Add Income</button>
     <operation-edit 
-      :defaultAccount="defaultAccount" 
-      :defaultBudget="defaultBudget" 
-      :defaultCategory="defaultCategory" 
-      :budgets="budgets" 
-      :accounts="accounts" 
-      :categories="categories" 
-      :title="editTitle" 
-      :data="editData" 
-      v-show="showEdit" 
-      @saved="editSaved" 
-      @cancel="showEdit=false"/>
+      :index="editIndex"
+      :options="options"
+      :budgets="budgets"
+      :accounts="accounts"
+      :categories="categories"
+      :title="editTitle"
+      :data="editData"
+      v-show="showEdit"
+      @saved="editSaved"
+      @cancel="cancel"/>
     <operation-list :data="operations" @edit="onEdit" @delete="listDelete"/>
   </div>
 </template>
@@ -27,10 +27,20 @@ import listMixin from '../mixins/list.mixin.js';
 import socketMixin from '../mixins/socket.mixin.js';
 export default {
   name: 'operation-main',
+  components: { OperationList, OperationEdit },
+  methods: {
+    showEditComponent( isDeposit ){
+      this.showEdit = true;
+      this.isNew = true;
+      this.showEdit = true;
+      let data = {};
+      data.isDeposit = isDeposit || false;
+      data.date = new Date();
+      this.editData = data;
+    }
+  },
   props: {
-    defaultAccount: Number,
-    defaultBudget: Number,
-    defaultCategory: Number,
+    options: Object
   },
   mixins:[
     mainMixin,
@@ -38,7 +48,6 @@ export default {
     editMixin( 'operation' ),
     socketMixin( 'operation' )
   ],
-  components: { OperationList, OperationEdit },
   computed:{
     editTitle(){
       return this.isNew ? 'Create Operation' : 'Edit Operation';

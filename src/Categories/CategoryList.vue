@@ -6,6 +6,7 @@
         <!-- <th>&nbsp;</th> -->
         <th>Id</th>
         <th>Name</th>
+        <th>Is Deposit</th>
       </thead>
       <tbody id="categories">
         <tr v-for="(category, index) in data" :key= "category.id">
@@ -13,6 +14,7 @@
           <!-- <td><a href="#" @click="$emit( 'delete', category, index )" class="list-delete">Delete</a></td> -->
           <td>{{category.id}}</td>
           <td>{{category.name}}</td>
+          <td>{{category.isDeposit}}</td>
         </tr>
       </tbody>
     </table>

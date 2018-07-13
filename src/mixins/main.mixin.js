@@ -11,7 +11,7 @@ export default {
   methods:{
     onError( err ){
       this.$emit( 'error', err );
-      alert( err );
+      alert( err.code );
     }
   }
 };
