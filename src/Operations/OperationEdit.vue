@@ -15,8 +15,8 @@
     </div>
     Budget
     <div class="select">
-      <select name="budget" id="budget" v-model="data.budget">
-        <option v-for="(budget) in buds" :key="budget.id" :value="budget.id">{{budget.name}}</option>
+      <select name="budget" id="budget" v-model="data.budget" :disabled="data.isDeposit">
+        <option v-for="(budget) in budgets" :key="budget.id" :value="budget.id">{{budget.name}}</option>
       </select>
     </div>
     Category
@@ -66,15 +66,6 @@ export default {
     }
   },
   computed:{
-    buds(){
-      if ( this.data.isDeposit ){
-        let eBud = this.options.exceedentBudget;
-        return [this.budgets.find(( item ) => {
-          return item.id === eBud;
-        })]; 
-      }
-      return this.budgets;
-    },
     cats(){
       if ( this.data.isDeposit ){
         return this.categories.filter(( item ) => {

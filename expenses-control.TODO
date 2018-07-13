@@ -31,11 +31,17 @@ Operations:
       ✔ Revisar la fecha inicial @done(18-07-12 17:25)
       ✔ ingresos solo pueden hacer budget a excedente @done(18-07-12 17:25)
       ✔ Poner un check en la operacion de deposito para exedente @done(18-07-12 17:26)
-      ☐ Revisar la transferencia
-      ☐ transferencias entre presupuestos
-      ☐ hacer un helper para deposito y otro para extraccion
-      ☐ hacer helper de transferencia de accout y de budget
-      ☐ Error descriptivo con los insuffcient Funds
+      ✔ Revisar la transferencia @done(18-07-13 00:13)
+      ✔ transferencias entre presupuestos @done(18-07-13 00:13)
+      ✔ hacer un helper para deposito y otro para extraccion @done(18-07-13 00:13)
+      ✔ hacer helper de transferencia de accout y de budget @done(18-07-13 00:14)
+      ✔ Error descriptivo con los insuffcient Funds @done(18-07-13 00:14)
+      ✔ Delete transfer no actualiza destination account @done(18-07-13 00:14)
+      ✔ por ahora si se hacen depositos no va a haber budget @done(18-07-13 00:38)
+      
+      
+      ☐ si se hace update a una operacion y cambia el account?
+      ☐ arreglar el transfer con el refactor que estoy haciendo
+      ☐ eliminar los archivos que no estoy usando
       ☐ Desarrollar un hitórico de todas las acciones navegables y rehacers
       ☐ Arreglar los mixins de vue que estan super mezclados
-      ☐ Delete transfer no actualiza destination account
