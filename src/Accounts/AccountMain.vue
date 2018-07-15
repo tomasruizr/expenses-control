@@ -4,7 +4,7 @@
     <button class="button is-primary" @click="showEdit=true" v-show="!showEdit">Add Account</button>
     <account-edit v-show="showEdit" :title="editTitle" :index="editIndex" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
     <a class="button is-link is-outlined" href="#" @click='showTransfer'>Make a transfer</a>
-    <transfer-edit v-show="showEditTransfer" :base-url="baseUrl" :http="http" type="account"/>
+    <transfer-edit @saved="showEditTransfer=false" v-show="showEditTransfer" :base-url="baseUrl" :http="http" type="account"/>
     <account-list :data="accounts" @edit="onEdit" @delete="listDelete"/>
   </div>
 </template>

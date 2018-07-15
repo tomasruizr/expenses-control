@@ -4,7 +4,7 @@
     <button class="button is-primary" @click="showEdit=true" v-show="!showEdit">Add Budget</button>
     <budget-edit v-show="showEdit" :index="editIndex" :title="editTitle" :data="editData" @saved="editSaved" @cancel="showEdit=false"/>
     <a class="button is-link is-outlined" href="#" @click='showTransfer'>Make a transfer</a>
-    <transfer-edit v-show="showEditTransfer" :base-url="baseUrl" :http="http" type="budget"/>
+    <transfer-edit @saved="showEditTransfer=false" v-show="showEditTransfer" :base-url="baseUrl" :http="http" type="budget"/>
     <budget-list :data="budgets" @edit="onEdit" @delete="listDelete"/>
   </div>
 </template>

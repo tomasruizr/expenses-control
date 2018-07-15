@@ -27,7 +27,7 @@ export default function listMixing( name , manageData = true ) {
       listDelete( data, index ){
         this.model.delete( data.id ).then(() => {
           this[`${name}s`].splice( index,1 );
-        });
+        }).catch( this.onError );
       }
     }
   };

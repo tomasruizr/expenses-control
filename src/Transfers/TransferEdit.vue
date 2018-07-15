@@ -44,11 +44,12 @@ export default {
   methods: {
     submit( event ){
       event.preventDefault();
-      this.http( `${this.baseUrl}/${this.type}/makeTransfer`, { method: 'POST', body: JSON.stringify( this.data ) }).then(() => {
+      this.data.type = this.type.charAt( 0 ).toUpperCase() + this.type.slice( 1 );
+      this.http( `${this.baseUrl}/operation/makeTransfer`, { method: 'POST', body: JSON.stringify( this.data ) }).then(() => {
         this.$emit( 'saved', this.data );
       });
-      this.showEdit = false;
       this.data = {};
+      this.$emit( 'saved' );
     }
   }
 };
